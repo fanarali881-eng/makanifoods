@@ -21,7 +21,7 @@ export default function SearchPage() {
       <div dir="rtl">
         <StoreHeader />
         <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ width: '50px', height: '50px', border: '4px solid #eee', borderTop: '4px solid #4CAF50', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+          <div style={{ width: '50px', height: '50px', border: '4px solid #eee', borderTop: '4px solid #C41230', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
         </div>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>

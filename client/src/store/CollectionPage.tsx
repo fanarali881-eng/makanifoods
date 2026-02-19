@@ -69,7 +69,7 @@ export default function CollectionPage() {
       <div dir="rtl">
         <StoreHeader />
         <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ width: '50px', height: '50px', border: '4px solid #eee', borderTop: '4px solid #4CAF50', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+          <div style={{ width: '50px', height: '50px', border: '4px solid #eee', borderTop: '4px solid #C41230', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
         </div>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
@@ -83,11 +83,11 @@ export default function CollectionPage() {
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '20px' }}>
         {/* Breadcrumb */}
         <div style={{ fontSize: '13px', color: '#999', marginBottom: '15px', display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
-          <a onClick={() => navigate('/store')} style={{ color: '#4CAF50', cursor: 'pointer' }}>الرئيسية</a>
+          <a onClick={() => navigate('/store')} style={{ color: '#C41230', cursor: 'pointer' }}>الرئيسية</a>
           <span>/</span>
           {parentCategory && (
             <>
-              <a onClick={() => navigate(`/store/collection/${parentCategory}`)} style={{ color: '#4CAF50', cursor: 'pointer' }}>
+              <a onClick={() => navigate(`/store/collection/${parentCategory}`)} style={{ color: '#C41230', cursor: 'pointer' }}>
                 {Object.values(categories).find(c => c.handle === parentCategory)?.title}
               </a>
               <span>/</span>
@@ -108,7 +108,7 @@ export default function CollectionPage() {
                   background: 'white', border: '1px solid #ddd', color: '#333',
                   cursor: 'pointer', textDecoration: 'none', transition: 'all 0.2s',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#4CAF50'; e.currentTarget.style.color = 'white'; e.currentTarget.style.borderColor = '#4CAF50'; }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#C41230'; e.currentTarget.style.color = 'white'; e.currentTarget.style.borderColor = '#C41230'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = '#333'; e.currentTarget.style.borderColor = '#ddd'; }}>
                 {sub.title}
               </a>
@@ -139,7 +139,7 @@ export default function CollectionPage() {
         ) : (
           <div style={{ textAlign: 'center', padding: '60px 20px', color: '#999' }}>
             <p style={{ fontSize: '18px', marginBottom: '10px' }}>لا توجد منتجات في هذا التصنيف</p>
-            <a onClick={() => navigate('/store')} style={{ color: '#4CAF50', cursor: 'pointer' }}>العودة للرئيسية</a>
+            <a onClick={() => navigate('/store')} style={{ color: '#C41230', cursor: 'pointer' }}>العودة للرئيسية</a>
           </div>
         )}
 
@@ -156,9 +156,9 @@ export default function CollectionPage() {
               <button key={page} onClick={() => setCurrentPage(page)}
                 style={{
                   padding: '8px 14px', borderRadius: '6px', cursor: 'pointer',
-                  background: currentPage === page ? '#4CAF50' : 'white',
+                  background: currentPage === page ? '#C41230' : 'white',
                   color: currentPage === page ? 'white' : '#333',
-                  border: currentPage === page ? '1px solid #4CAF50' : '1px solid #ddd',
+                  border: currentPage === page ? '1px solid #C41230' : '1px solid #ddd',
                 }}>
                 {page}
               </button>

@@ -9,7 +9,6 @@ export default function CartPage() {
   const total = getCartTotal();
 
   const handleCheckout = () => {
-    // Navigate to the existing summary payment page with cart data
     const cartData = cart.map(item => ({
       name: item.product.title,
       variant: item.variant.title,
@@ -18,7 +17,6 @@ export default function CartPage() {
       image: item.product.image,
     }));
     
-    // Store cart data in sessionStorage for the payment page
     sessionStorage.setItem('makani-checkout', JSON.stringify({
       items: cartData,
       total: total,
@@ -42,7 +40,7 @@ export default function CartPage() {
             </svg>
             <p style={{ fontSize: '18px', color: '#666', marginBottom: '15px' }}>سلة التسوق فارغة</p>
             <a onClick={() => navigate('/store')} style={{
-              display: 'inline-block', padding: '10px 30px', background: '#4CAF50', color: 'white',
+              display: 'inline-block', padding: '10px 30px', background: '#C41230', color: 'white',
               borderRadius: '8px', cursor: 'pointer', fontWeight: 600, textDecoration: 'none',
             }}>تصفح المنتجات</a>
           </div>
@@ -56,21 +54,18 @@ export default function CartPage() {
                     display: 'flex', alignItems: 'center', gap: '15px', padding: '15px 20px',
                     borderBottom: index < cart.length - 1 ? '1px solid #f0f0f0' : 'none',
                   }} className="cart-item">
-                  {/* Image */}
                   <img src={item.product.image} alt={item.product.title}
                     onClick={() => navigate(`/store/product/${item.product.handle}`)}
                     style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px', cursor: 'pointer', flexShrink: 0 }} />
 
-                  {/* Info */}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: '14px', fontWeight: 600, color: '#333', marginBottom: '4px' }}>{item.product.title}</div>
                     {item.variant.title !== 'Default Title' && (
                       <div style={{ fontSize: '12px', color: '#999', marginBottom: '4px' }}>{item.variant.title}</div>
                     )}
-                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#4CAF50' }}>{item.variant.price} KD</div>
+                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#C41230' }}>{item.variant.price} KD</div>
                   </div>
 
-                  {/* Quantity */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0', border: '1px solid #ddd', borderRadius: '6px', flexShrink: 0 }}>
                     <button onClick={() => updateCartQuantity(item.product.id, item.variant.id, item.quantity - 1)}
                       style={{ padding: '5px 10px', background: '#f5f5f5', border: 'none', cursor: 'pointer', fontSize: '16px' }}>-</button>
@@ -79,12 +74,10 @@ export default function CartPage() {
                       style={{ padding: '5px 10px', background: '#f5f5f5', border: 'none', cursor: 'pointer', fontSize: '16px' }}>+</button>
                   </div>
 
-                  {/* Subtotal */}
                   <div style={{ fontSize: '14px', fontWeight: 600, color: '#333', minWidth: '70px', textAlign: 'center', flexShrink: 0 }}>
                     {(parseFloat(item.variant.price) * item.quantity).toFixed(3)} KD
                   </div>
 
-                  {/* Remove */}
                   <button onClick={() => removeFromCart(item.product.id, item.variant.id)}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#f44336', fontSize: '18px', flexShrink: 0, padding: '5px' }}>
                     ✕
@@ -99,19 +92,19 @@ export default function CartPage() {
                 <span style={{ fontSize: '14px', color: '#666' }}>المجموع الفرعي</span>
                 <span style={{ fontSize: '16px', fontWeight: 600, color: '#333' }}>{total.toFixed(3)} KD</span>
               </div>
-              {total >= 10 && (
+              {total >= 20 && (
                 <div style={{ fontSize: '13px', color: '#4CAF50', marginBottom: '10px' }}>✓ توصيل مجاني</div>
               )}
-              {total < 10 && (
+              {total < 20 && (
                 <div style={{ fontSize: '13px', color: '#ff9800', marginBottom: '10px' }}>
-                  أضف {(10 - total).toFixed(3)} KD للحصول على توصيل مجاني
+                  أضف {(20 - total).toFixed(3)} KD للحصول على توصيل مجاني
                 </div>
               )}
 
               <button onClick={handleCheckout}
                 style={{
                   width: '100%', padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-                  fontSize: '16px', fontWeight: 600, background: '#4CAF50', color: 'white', marginBottom: '10px',
+                  fontSize: '16px', fontWeight: 600, background: '#C41230', color: 'white', marginBottom: '10px',
                 }}>
                 إتمام الطلب - {total.toFixed(3)} KD
               </button>

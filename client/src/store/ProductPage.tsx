@@ -29,7 +29,7 @@ export default function ProductPage() {
       <div dir="rtl">
         <StoreHeader />
         <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ width: '50px', height: '50px', border: '4px solid #eee', borderTop: '4px solid #4CAF50', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+          <div style={{ width: '50px', height: '50px', border: '4px solid #eee', borderTop: '4px solid #C41230', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
         </div>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
@@ -42,7 +42,7 @@ export default function ProductPage() {
         <StoreHeader />
         <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '15px' }}>
           <p style={{ fontSize: '18px', color: '#666' }}>المنتج غير موجود</p>
-          <a onClick={() => navigate('/store')} style={{ color: '#4CAF50', cursor: 'pointer' }}>العودة للرئيسية</a>
+          <a onClick={() => navigate('/store')} style={{ color: '#C41230', cursor: 'pointer' }}>العودة للرئيسية</a>
         </div>
         <StoreFooter />
       </div>
@@ -69,7 +69,7 @@ export default function ProductPage() {
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '20px' }}>
         {/* Breadcrumb */}
         <div style={{ fontSize: '13px', color: '#999', marginBottom: '20px', display: 'flex', gap: '5px' }}>
-          <a onClick={() => navigate('/store')} style={{ color: '#4CAF50', cursor: 'pointer' }}>الرئيسية</a>
+          <a onClick={() => navigate('/store')} style={{ color: '#C41230', cursor: 'pointer' }}>الرئيسية</a>
           <span>/</span>
           <span>{product.title}</span>
         </div>
@@ -87,7 +87,7 @@ export default function ProductPage() {
                   <img key={i} src={img} alt="" onClick={() => setSelectedImage(i)}
                     style={{
                       width: '70px', height: '70px', objectFit: 'cover', borderRadius: '6px', cursor: 'pointer',
-                      border: selectedImage === i ? '2px solid #4CAF50' : '2px solid #eee',
+                      border: selectedImage === i ? '2px solid #C41230' : '2px solid #eee',
                     }} />
                 ))}
               </div>
@@ -121,9 +121,9 @@ export default function ProductPage() {
                     <button key={v.id} onClick={() => { setSelectedVariant(i); }}
                       style={{
                         padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px',
-                        background: selectedVariant === i ? '#4CAF50' : 'white',
+                        background: selectedVariant === i ? '#C41230' : 'white',
                         color: selectedVariant === i ? 'white' : '#333',
-                        border: selectedVariant === i ? '2px solid #4CAF50' : '2px solid #ddd',
+                        border: selectedVariant === i ? '2px solid #C41230' : '2px solid #ddd',
                         fontWeight: selectedVariant === i ? 600 : 400,
                       }}>
                       {v.title}
@@ -150,7 +150,7 @@ export default function ProductPage() {
               style={{
                 width: '100%', padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
                 fontSize: '16px', fontWeight: 600, transition: 'all 0.2s',
-                background: added ? '#2E7D32' : '#4CAF50', color: 'white',
+                background: added ? '#8B0000' : '#C41230', color: 'white',
               }}>
               {added ? '✓ تمت الإضافة' : 'أضف إلى السلة'}
             </button>
