@@ -18,6 +18,8 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
   const discountPercent = hasDiscount ? Math.round((1 - parseFloat(variant.price) / parseFloat(variant.compareAtPrice!)) * 100) : 0;
   const isCatchWeight = product.tags?.includes('catch_weight_item');
   const hasMultipleVariants = product.variants.length > 1;
+  const saveTag = product.tags?.find(t => t.startsWith('Save '));
+  const savePercent = saveTag ? saveTag.replace('Save ', '') : null;
 
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -28,7 +30,7 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
     }
   };
 
-  const hasBadges = product.isOffer || product.isNew || isCatchWeight;
+  const hasBadges = product.isOffer || product.isNew || isCatchWeight || !!savePercent;
 
   return (
     <div style={{
@@ -75,6 +77,18 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
             border: '1.5px solid #e0e0e0',
             borderRadius: '2px',
           }}>عرض خاص</span>
+        )}
+        {/* Save X% Discount in Cart badge for box products */}
+        {savePercent && (
+          <span style={{
+            background: 'white',
+            color: '#333',
+            padding: '4px 14px',
+            fontSize: '13px',
+            fontWeight: 600,
+            border: '1.5px solid #e0e0e0',
+            borderRadius: '2px',
+          }}>{savePercent} Discount in Cart</span>
         )}
         {/* Weight icon for catch_weight items - on the left side */}
         {isCatchWeight && (
