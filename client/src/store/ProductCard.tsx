@@ -142,9 +142,10 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '4px' }}>
               <span style={{
                 background: '#C41230', color: 'white',
-                borderRadius: '50%', fontSize: '11px', fontWeight: 700,
-                width: '40px', height: '40px', minWidth: '40px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                borderRadius: '20px', fontSize: '12px', fontWeight: 700,
+                padding: '4px 12px',
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                whiteSpace: 'nowrap',
               }}>
                 -{discountPercent}%
               </span>
