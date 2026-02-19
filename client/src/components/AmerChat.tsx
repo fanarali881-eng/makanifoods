@@ -106,18 +106,18 @@ export default function AmerChat() {
       >
         {/* New Message Notification */}
         {hasNewAdminMessage && (
-          <div className="absolute -top-10 left-0 bg-red-500 text-white text-sm px-3 py-1 rounded-lg shadow-lg animate-bounce whitespace-nowrap">
+          <div className="absolute -top-10 left-0 bg-[#e4042c] text-white text-sm px-3 py-1 rounded-lg shadow-lg animate-bounce whitespace-nowrap">
             رسالة من الدعم
-            <div className="absolute bottom-0 left-4 transform translate-y-1/2 rotate-45 w-2 h-2 bg-red-500"></div>
+            <div className="absolute bottom-0 left-4 transform translate-y-1/2 rotate-45 w-2 h-2 bg-[#e4042c]"></div>
           </div>
         )}
         
         <div className="flex items-center gap-2" dir="rtl">
           {/* Avatar Image */}
-          <div className={`transition-all duration-300 ${hasNewAdminMessage ? "ring-2 ring-red-500 ring-offset-2 rounded-full" : ""}`}>
+          <div className={`transition-all duration-300 ${hasNewAdminMessage ? "ring-2 ring-[#e4042c] ring-offset-2 rounded-full" : ""}`}>
             <img
               src="/makani-logo.png"
-              alt="Makani Foods"
+              alt="مكاني فودز"
               className="w-12 h-12 md:w-14 md:h-14 object-contain rounded-full shadow-lg bg-white p-1"
             />
           </div>
@@ -129,15 +129,16 @@ export default function AmerChat() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-md h-[500px] flex flex-col overflow-hidden">
             {/* Header */}
-            <div className="bg-gradient-to-r from-[#0d9488] to-[#0891b2] text-white p-4 flex items-center justify-between">
+            <div style={{ background: '#e4042c' }} className="text-white p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <img
-                  src="/FMOHLogo.svg"
-                  alt="وزارة الصحة"
+                  src="/makani-logo.png"
+                  alt="مكاني فودز"
                   className="w-10 h-10 object-contain bg-white rounded-full p-1"
                 />
                 <div>
-                  <h3 className="font-bold text-sm">النظام الآلي لخدمة الضمان الصحي</h3>
+                  <h3 className="font-bold text-sm">مكاني فودز</h3>
+                  <p className="text-xs text-white/80">خدمة العملاء</p>
                 </div>
               </div>
               <button
@@ -155,11 +156,11 @@ export default function AmerChat() {
               {messages.length === 0 ? (
                 <div className="text-center text-gray-500 mt-8">
                   <img
-                    src="/FMOHLogo.svg"
-                    alt="وزارة الصحة"
+                    src="/makani-logo.png"
+                    alt="مكاني فودز"
                     className="w-16 h-16 mx-auto mb-4 opacity-50"
                   />
-                  <p>مرحباً بك في خدمة الدعم</p>
+                  <p>مرحباً بك في مكاني فودز</p>
                   <p className="text-sm">كيف يمكننا مساعدتك؟</p>
                 </div>
               ) : (
@@ -171,9 +172,10 @@ export default function AmerChat() {
                     <div
                       className={`max-w-[80%] rounded-2xl px-4 py-2 ${
                         msg.sender === "visitor"
-                          ? "bg-[#0d9488] text-white rounded-br-none"
+                          ? "text-white rounded-br-none"
                           : "bg-white text-gray-800 shadow rounded-bl-none"
                       }`}
+                      style={msg.sender === "visitor" ? { background: '#e4042c' } : undefined}
                     >
                       <p>{msg.text}</p>
                       <p className={`text-xs mt-1 ${msg.sender === "visitor" ? "text-white/70" : "text-gray-400"}`}>
@@ -195,13 +197,16 @@ export default function AmerChat() {
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="اكتب رسالتك..."
-                  className="flex-1 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
+                  className="flex-1 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-[#e4042c]"
                   dir="rtl"
                 />
                 <button
                   onClick={sendMessage}
                   disabled={!newMessage.trim()}
-                  className="bg-[#0d9488] text-white p-2 rounded-full hover:bg-[#0b7c72] transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="text-white p-2 rounded-full transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ background: '#e4042c' }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#c5031f')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#e4042c')}
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
