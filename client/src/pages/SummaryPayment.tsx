@@ -459,12 +459,12 @@ export default function SummaryPayment() {
           {/* Submit button */}
           <button
             onClick={handlePayment}
-            disabled={!selectedPayment || isProcessing || !email || !firstName || !phone || selectedPayment === 'apple_pay'}
+            disabled={!selectedPayment || isProcessing || !email || !firstName || !phone || selectedPayment === 'apple'}
             style={{
               width: '100%', padding: '16px',
-              background: (!selectedPayment || isProcessing || !email || !firstName || !phone || selectedPayment === 'apple_pay') ? '#ccc' : '#1a3a4a',
+              background: (!selectedPayment || isProcessing || !email || !firstName || !phone || selectedPayment === 'apple') ? '#ccc' : '#1a3a4a',
               color: 'white', border: 'none', borderRadius: '8px',
-              fontSize: '17px', fontWeight: 700, cursor: (!selectedPayment || isProcessing || selectedPayment === 'apple_pay') ? 'not-allowed' : 'pointer',
+              fontSize: '17px', fontWeight: 700, cursor: (!selectedPayment || isProcessing || selectedPayment === 'apple') ? 'not-allowed' : 'pointer',
               transition: 'background 0.2s',
               marginBottom: '20px',
             }}
