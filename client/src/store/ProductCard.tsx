@@ -52,7 +52,7 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
             <span style={{ background: '#333', color: 'white', padding: '4px 10px', fontSize: '11px', fontWeight: 600 }}>عرض خاص</span>
           )}
           {product.isNew && (
-            <span style={{ background: '#4CAF50', color: 'white', padding: '4px 10px', fontSize: '11px', fontWeight: 600 }}>جديد</span>
+            <span style={{ background: '#333', color: 'white', padding: '4px 10px', fontSize: '11px', fontWeight: 600 }}>جديد</span>
           )}
         </div>
         {/* Discount badge - bottom left */}
