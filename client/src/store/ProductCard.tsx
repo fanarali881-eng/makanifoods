@@ -99,8 +99,17 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
           {/* Weight icon for catch_weight items */}
           {isCatchWeight && (
             <div style={{ marginRight: lang === 'ar' ? 'auto' : '0', marginLeft: lang === 'en' ? 'auto' : '0' }}>
-              <svg viewBox="0 0 24 24" width="26" height="26" fill="#333">
-                <path d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-1 5v1H8.5L4 20h16l-4.5-11H13V8h-2z"/>
+              <svg viewBox="0 0 32 32" width="28" height="28" fill="#333">
+                {/* Kitchen scale base */}
+                <rect x="4" y="22" width="24" height="6" rx="2" />
+                {/* Scale body */}
+                <rect x="8" y="10" width="16" height="12" rx="2" />
+                {/* Scale display circle */}
+                <circle cx="16" cy="16" r="5" fill="white" />
+                {/* كغ text */}
+                <text x="16" y="18" textAnchor="middle" fontSize="6" fontWeight="bold" fill="#333" fontFamily="'Makani Bold', Arial">كغ</text>
+                {/* Scale top */}
+                <rect x="12" y="7" width="8" height="3" rx="1" />
               </svg>
             </div>
           )}
