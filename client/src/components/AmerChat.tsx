@@ -113,14 +113,12 @@ export default function AmerChat() {
         )}
         
         <div className="flex items-center gap-2" dir="rtl">
-          {/* Label */}
-          <span className="bg-[#0d9488] text-white text-xs md:text-sm px-3 py-1.5 rounded-full shadow-md whitespace-nowrap font-medium">تواصل معنا</span>
           {/* Avatar Image */}
           <div className={`transition-all duration-300 ${hasNewAdminMessage ? "ring-2 ring-red-500 ring-offset-2 rounded-full" : ""}`}>
             <img
-              src="/FMOHLogo.svg"
-              alt="تواصل معنا"
-              className="w-10 h-10 md:w-12 md:h-12 object-contain"
+              src="/makani-logo.png"
+              alt="Makani Foods"
+              className="w-12 h-12 md:w-14 md:h-14 object-contain rounded-full shadow-lg bg-white p-1"
             />
           </div>
         </div>

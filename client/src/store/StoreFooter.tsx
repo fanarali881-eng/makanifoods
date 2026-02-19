@@ -61,14 +61,16 @@ export default function StoreFooter() {
         </div>
 
         {/* Payment methods */}
-        <div style={{ borderTop: '1px solid #333', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
-          <p style={{ fontSize: '12px', color: '#666' }}>{t('footer.copyright').replace('{year}', new Date().getFullYear().toString())}</p>
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            <span style={{ fontSize: '12px', color: '#666' }}>{t('footer.paymentMethods')}</span>
-            <span style={{ background: '#333', color: '#999', padding: '4px 10px', borderRadius: '4px', fontSize: '11px' }}>KNET</span>
-            <span style={{ background: '#333', color: '#999', padding: '4px 10px', borderRadius: '4px', fontSize: '11px' }}>VISA</span>
-            <span style={{ background: '#333', color: '#999', padding: '4px 10px', borderRadius: '4px', fontSize: '11px' }}>Mastercard</span>
+        <div style={{ borderTop: '1px solid #333', paddingTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '13px', color: '#999', fontWeight: 600 }}>{t('footer.paymentMethods')}</span>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <span style={{ background: '#fff', color: '#333', padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 700, letterSpacing: '0.5px' }}>KNET</span>
+              <span style={{ background: '#fff', color: '#1a1f71', padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 700, letterSpacing: '0.5px' }}>VISA</span>
+              <span style={{ background: '#fff', color: '#eb001b', padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 700, letterSpacing: '0.5px' }}>Mastercard</span>
+            </div>
           </div>
+          <p style={{ fontSize: '12px', color: '#666' }}>{t('footer.copyright').replace('{year}', new Date().getFullYear().toString())}</p>
         </div>
       </div>
     </footer>
