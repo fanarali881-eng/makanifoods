@@ -170,19 +170,21 @@ function CategoryCards() {
 /* ── Brand Logos ── */
 function BrandLogos() {
   const brands = [
+    { name: "Chef's Palette", logo: '/store-images/brand-chefs-palette.png' },
+    { name: 'Mr. Cleavers', logo: '/store-images/brand-mr-cleavers.png' },
+    { name: 'Diamantina', logo: '/store-images/brand-diamantina.png' },
+    { name: 'Lamb Weston', logo: '/store-images/brand-lamb-weston.png' },
+    { name: 'Ardo', logo: '/store-images/brand-ardo.png' },
     { name: 'Sadia', logo: '/store-images/brand-sadia.png' },
-    { name: "Ocean's Pride", logo: '/store-images/brand-op.png' },
-    { name: 'Lamb Weston', logo: '/store-images/brand-lw.png' },
-    { name: 'Storm', logo: '/store-images/brand-storm.png' },
-    { name: 'Daawat', logo: '/store-images/brand-daawat.png' },
-    { name: 'Crops', logo: '/store-images/brand-crops.png' },
+    { name: "Ocean's Pride", logo: '/store-images/brand-oceans-pride.png' },
+    { name: "Chef's Choice", logo: '/store-images/brand-chefs-choice.png' },
   ];
 
   return (
-    <section style={{ padding: '40px 0', background: '#f9f9f9' }}>
-      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '40px', alignItems: 'center' }}>
+    <section style={{ padding: '50px 0', background: '#fff' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '0 40px', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '30px', alignItems: 'center' }}>
         {brands.map(b => (
-          <div key={b.name} style={{ width: '120px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div key={b.name} style={{ width: '150px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <img src={b.logo} alt={b.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
               onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
           </div>
