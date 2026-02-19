@@ -250,8 +250,9 @@ export default function SummaryPayment() {
             {/* Address */}
             <input
               value={address}
-              onChange={e => { const v = e.target.value.replace(/[^a-zA-Z؀-ۿݐ-ݿࢠ-ࣿ\s]/g, ''); setAddress(v); }}
+              onChange={e => { const v = e.target.value.replace(/[^0-9]/g, ''); setAddress(v); }}
               placeholder={isAr ? 'المبنى / الطابق / الشقة' : 'Building / Floor / Apartment'}
+              inputMode="numeric"
               style={{
                 width: '100%', padding: '14px 16px', border: '1px solid #ccc', borderRadius: '6px',
                 fontSize: '15px', outline: 'none', boxSizing: 'border-box', marginBottom: '12px',
@@ -263,8 +264,9 @@ export default function SummaryPayment() {
             <div style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
               <input
                 value={postalCode}
-                onChange={e => setPostalCode(e.target.value)}
+                onChange={e => { const v = e.target.value.replace(/[^0-9]/g, ''); setPostalCode(v); }}
                 placeholder={isAr ? 'Postal code (optional)' : 'Postal code (optional)'}
+                inputMode="numeric"
                 style={{
                   flex: 1, padding: '14px 16px', border: '1px solid #ccc', borderRadius: '6px',
                   fontSize: '15px', outline: 'none', boxSizing: 'border-box',
