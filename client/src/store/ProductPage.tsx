@@ -41,7 +41,7 @@ export default function ProductPage() {
       <div dir={dir}>
         <StoreHeader />
         <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ width: '50px', height: '50px', border: '4px solid #eee', borderTop: '4px solid #C41230', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+          <div style={{ width: '50px', height: '50px', border: '4px solid #eee', borderTop: '4px solid #e4042c', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
         </div>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
@@ -54,7 +54,7 @@ export default function ProductPage() {
         <StoreHeader />
         <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '15px' }}>
           <p style={{ fontSize: '18px', color: '#666' }}>{t('productPage.notFound')}</p>
-          <a onClick={() => navigate('/store')} style={{ color: '#C41230', cursor: 'pointer' }}>{t('productPage.backToHome')}</a>
+          <a onClick={() => navigate('/store')} style={{ color: '#e4042c', cursor: 'pointer' }}>{t('productPage.backToHome')}</a>
         </div>
         <StoreFooter />
       </div>
@@ -133,7 +133,7 @@ export default function ProductPage() {
                   <img key={i} src={img} alt="" onClick={() => setSelectedImage(i)}
                     style={{
                       width: '70px', height: '70px', objectFit: 'contain', cursor: 'pointer',
-                      border: selectedImage === i ? '2px solid #C41230' : '2px solid #eee',
+                      border: selectedImage === i ? '2px solid #e4042c' : '2px solid #eee',
                     }} />
                 ))}
               </div>
@@ -160,7 +160,7 @@ export default function ProductPage() {
               </span>
               {hasDiscount && (
                 <div style={{ marginTop: '4px' }}>
-                  <span style={{ fontSize: '15px', color: '#C41230', textDecoration: 'line-through' }}>
+                  <span style={{ fontSize: '15px', color: '#e4042c', textDecoration: 'line-through' }}>
                     {isCatchWeight ? `KG/KD${variant.compareAtPrice}` : `KD ${variant.compareAtPrice}`}
                   </span>
                 </div>
@@ -220,7 +220,7 @@ export default function ProductPage() {
                   style={{
                     flex: 1, padding: '14px 20px', borderRadius: '30px', border: 'none', cursor: 'pointer',
                     fontSize: '17px', fontWeight: 700,
-                    background: '#C41230', color: 'white',
+                    background: '#e4042c', color: 'white',
                     transition: 'all 0.2s',
                   }}>
                   {t('productPage.addToCart')}

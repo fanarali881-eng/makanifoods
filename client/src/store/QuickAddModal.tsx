@@ -149,7 +149,7 @@ export default function QuickAddModal({ product, onClose }: QuickAddModalProps) 
           style={{
             width: '100%',
             padding: '14px 20px',
-            background: added ? '#333' : '#C41230',
+            background: added ? '#333' : '#e4042c',
             color: 'white',
             border: 'none',
             borderRadius: '30px',

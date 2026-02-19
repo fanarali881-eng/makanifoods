@@ -76,7 +76,7 @@ export default function CartDrawer() {
               {count > 0 && (
                 <span style={{
                   position: 'absolute', top: '-6px', [isRTL ? 'right' : 'left']: '-6px',
-                  background: '#C41230', color: 'white',
+                  background: '#e4042c', color: 'white',
                   borderRadius: '50%', width: '20px', height: '20px',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '11px', fontWeight: 700,
@@ -110,7 +110,7 @@ export default function CartDrawer() {
             <div style={{
               height: '100%',
               width: `${progress}%`,
-              background: 'linear-gradient(90deg, #C41230, #C41230)',
+              background: 'linear-gradient(90deg, #e4042c, #e4042c)',
               borderRadius: '3px',
               transition: 'width 0.3s',
             }} />
@@ -119,7 +119,7 @@ export default function CartDrawer() {
               position: 'absolute', top: '50%', left: `${Math.min(progress, 100)}%`,
               transform: 'translate(-50%, -50%)',
               width: '14px', height: '14px',
-              background: 'white', border: '3px solid #C41230',
+              background: 'white', border: '3px solid #e4042c',
               borderRadius: '50%',
             }} />
           </div>
@@ -249,7 +249,7 @@ export default function CartDrawer() {
               onClick={() => { setCartDrawerOpen(false); setLocation('/summary-payment'); }}
               style={{
                 width: '100%', padding: '16px',
-                background: '#C41230', color: 'white',
+                background: '#e4042c', color: 'white',
                 border: 'none', borderRadius: '30px',
                 fontSize: '18px', fontWeight: 700,
                 cursor: 'pointer',

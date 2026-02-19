@@ -95,7 +95,7 @@ export default function StoreHeader() {
       </div>
 
       {/* Main header - Red background */}
-      <div style={{ background: '#C41230', padding: '12px 0' }}>
+      <div style={{ background: '#e4042c', padding: '12px 0' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 30px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           {/* Logo + tagline */}
           <a onClick={() => navigate('/store')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', flexShrink: 0 }}>
@@ -157,7 +157,7 @@ export default function StoreHeader() {
             <a onClick={() => setCartDrawerOpen(true)} style={{ cursor: 'pointer', position: 'relative', padding: '4px' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
               {cartCount > 0 && (
-                <span style={{ position: 'absolute', top: '-6px', [isRTL ? 'right' : 'left']: '-6px', background: 'white', color: '#C41230', borderRadius: '50%', width: '18px', height: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold' }}>
+                <span style={{ position: 'absolute', top: '-6px', [isRTL ? 'right' : 'left']: '-6px', background: 'white', color: '#e4042c', borderRadius: '50%', width: '18px', height: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold' }}>
                   {cartCount}
                 </span>
               )}
@@ -233,7 +233,7 @@ export default function StoreHeader() {
                         padding: '3px 0', cursor: 'pointer', textDecoration: 'none',
                         transition: 'color 0.2s',
                       }}
-                      onMouseEnter={e => (e.currentTarget.style.color = '#C41230')}
+                      onMouseEnter={e => (e.currentTarget.style.color = '#e4042c')}
                       onMouseLeave={e => (e.currentTarget.style.color = '#555')}
                     >
                       {getCatTitle(nested)}
@@ -248,12 +248,12 @@ export default function StoreHeader() {
 
       {/* Search overlay */}
       {searchOpen && (
-        <div style={{ background: 'white', padding: '15px 20px', borderBottom: '2px solid #C41230', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+        <div style={{ background: 'white', padding: '15px 20px', borderBottom: '2px solid #e4042c', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
           <form onSubmit={handleSearchSubmit} style={{ maxWidth: '600px', margin: '0 auto', position: 'relative' }}>
             <input type="text" placeholder={t('header.searchPlaceholder')} value={searchQuery} onChange={e => handleSearch(e.target.value)} autoFocus
-              style={{ width: '100%', padding: '12px 45px 12px 15px', border: '2px solid #C41230', borderRadius: '8px', fontSize: '15px', outline: 'none', direction: dir }} />
+              style={{ width: '100%', padding: '12px 45px 12px 15px', border: '2px solid #e4042c', borderRadius: '8px', fontSize: '15px', outline: 'none', direction: dir }} />
             <button type="submit" style={{ position: 'absolute', [isRTL ? 'right' : 'left']: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C41230" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e4042c" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
             </button>
             {searchResults.length > 0 && (
               <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'white', border: '1px solid #eee', borderRadius: '0 0 8px 8px', maxHeight: '400px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
@@ -265,7 +265,7 @@ export default function StoreHeader() {
                     <img src={p.image} alt="" style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius: '6px' }} />
                     <div>
                       <div style={{ fontSize: '14px', fontWeight: 500 }}>{getProductTitle(p)}</div>
-                      <div style={{ fontSize: '13px', color: '#C41230', fontWeight: 600 }}>{p.variants[0]?.price} KD</div>
+                      <div style={{ fontSize: '13px', color: '#e4042c', fontWeight: 600 }}>{p.variants[0]?.price} KD</div>
                     </div>
                   </a>
                 ))}
@@ -280,8 +280,8 @@ export default function StoreHeader() {
         <div style={{ position: 'fixed', top: 0, right: 0, bottom: 0, left: 0, zIndex: 200 }}>
           <div onClick={() => setMobileMenuOpen(false)} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)' }} />
           <div style={{ position: 'absolute', top: 0, [isRTL ? 'right' : 'left']: 0, bottom: 0, width: '300px', background: 'white', overflowY: 'auto', padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', paddingBottom: '15px', borderBottom: '2px solid #C41230' }}>
-              <span style={{ color: '#C41230', fontSize: '22px', fontWeight: 800 }}>{t('footer.brandName')}</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', paddingBottom: '15px', borderBottom: '2px solid #e4042c' }}>
+              <span style={{ color: '#e4042c', fontSize: '22px', fontWeight: 800 }}>{t('footer.brandName')}</span>
               <button onClick={() => setMobileMenuOpen(false)} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#333' }}>✕</button>
             </div>
             {/* Language toggle in mobile */}
@@ -299,7 +299,7 @@ export default function StoreHeader() {
               <MobileCategory key={key} cat={cat} navigate={navigate} close={() => setMobileMenuOpen(false)} getCatTitle={getCatTitle} />
             ))}
             <a onClick={() => { navigate('/store/collection/promotion'); setMobileMenuOpen(false); }}
-              style={{ display: 'block', padding: '12px 0', fontWeight: 600, fontSize: '15px', color: '#C41230', cursor: 'pointer', textDecoration: 'none', borderBottom: '1px solid #eee' }}>
+              style={{ display: 'block', padding: '12px 0', fontWeight: 600, fontSize: '15px', color: '#e4042c', cursor: 'pointer', textDecoration: 'none', borderBottom: '1px solid #eee' }}>
               {t('header.offers')}
             </a>
             <a onClick={() => { navigate('/store/collection/boxes'); setMobileMenuOpen(false); }}

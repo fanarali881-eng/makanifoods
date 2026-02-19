@@ -148,7 +148,7 @@ export default function CollectionPage() {
       <div dir={dir}>
         <StoreHeader />
         <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ width: '50px', height: '50px', border: '4px solid #eee', borderTop: '4px solid #C41230', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+          <div style={{ width: '50px', height: '50px', border: '4px solid #eee', borderTop: '4px solid #e4042c', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
         </div>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
@@ -163,11 +163,11 @@ export default function CollectionPage() {
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '20px' }}>
         {/* Breadcrumb */}
         <div style={{ fontSize: '13px', color: '#999', marginBottom: '15px', display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
-          <a onClick={() => navigate('/store')} style={{ color: '#C41230', cursor: 'pointer', textDecoration: 'none' }}>{t('collection.home')}</a>
+          <a onClick={() => navigate('/store')} style={{ color: '#e4042c', cursor: 'pointer', textDecoration: 'none' }}>{t('collection.home')}</a>
           <span>/</span>
           {parentCategory && (
             <>
-              <a onClick={() => navigate(`/store/collection/${parentCategory}`)} style={{ color: '#C41230', cursor: 'pointer', textDecoration: 'none' }}>
+              <a onClick={() => navigate(`/store/collection/${parentCategory}`)} style={{ color: '#e4042c', cursor: 'pointer', textDecoration: 'none' }}>
                 {parentTitle}
               </a>
               <span>/</span>
@@ -189,7 +189,7 @@ export default function CollectionPage() {
                   cursor: 'pointer', textDecoration: 'none', transition: 'all 0.2s',
                   fontWeight: 500,
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#C41230'; e.currentTarget.style.color = 'white'; e.currentTarget.style.borderColor = '#C41230'; }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#e4042c'; e.currentTarget.style.color = 'white'; e.currentTarget.style.borderColor = '#e4042c'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = '#333'; e.currentTarget.style.borderColor = '#ddd'; }}>
                 {getCatTitle(sub)}
               </a>
@@ -220,7 +220,7 @@ export default function CollectionPage() {
         ) : (
           <div style={{ textAlign: 'center', padding: '60px 20px', color: '#999' }}>
             <p style={{ fontSize: '18px', marginBottom: '10px' }}>{t('collection.noProducts')}</p>
-            <a onClick={() => navigate('/store')} style={{ color: '#C41230', cursor: 'pointer', textDecoration: 'none' }}>{t('collection.backToHome')}</a>
+            <a onClick={() => navigate('/store')} style={{ color: '#e4042c', cursor: 'pointer', textDecoration: 'none' }}>{t('collection.backToHome')}</a>
           </div>
         )}
 
@@ -248,9 +248,9 @@ export default function CollectionPage() {
                 <button key={page} onClick={() => setCurrentPage(page)}
                   style={{
                     padding: '8px 14px', borderRadius: '6px', cursor: 'pointer',
-                    background: currentPage === page ? '#C41230' : 'white',
+                    background: currentPage === page ? '#e4042c' : 'white',
                     color: currentPage === page ? 'white' : '#333',
-                    border: currentPage === page ? '1px solid #C41230' : '1px solid #ddd',
+                    border: currentPage === page ? '1px solid #e4042c' : '1px solid #ddd',
                   }}>
                   {page}
                 </button>

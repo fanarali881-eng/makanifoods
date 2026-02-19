@@ -30,7 +30,7 @@ function HeroSlider() {
   }, []);
 
   return (
-    <section style={{ position: 'relative', overflow: 'hidden', background: '#C41230' }}>
+    <section style={{ position: 'relative', overflow: 'hidden', background: '#e4042c' }}>
       <div style={{ display: 'flex', transition: 'transform 0.6s ease', transform: `translateX(${current * 100}%)` }}>
         {slides.map((s, i) => (
           <div key={i} onClick={() => navigate(s.link)} style={{ minWidth: '100%', cursor: 'pointer' }}>
@@ -45,7 +45,7 @@ function HeroSlider() {
       <div style={{ position: 'absolute', bottom: '15px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '8px' }}>
         {slides.map((_, i) => (
           <button key={i} onClick={() => setCurrent(i)}
-            style={{ width: i === current ? '24px' : '8px', height: '8px', borderRadius: '4px', border: 'none', background: i === current ? '#C41230' : 'rgba(255,255,255,0.5)', cursor: 'pointer', transition: 'all 0.3s', padding: 0 }} />
+            style={{ width: i === current ? '24px' : '8px', height: '8px', borderRadius: '4px', border: 'none', background: i === current ? '#e4042c' : 'rgba(255,255,255,0.5)', cursor: 'pointer', transition: 'all 0.3s', padding: 0 }} />
         ))}
       </div>
     </section>
@@ -99,7 +99,7 @@ function ProductCarousel({ title, products, viewAllLink, titleUnderline }: { tit
         {viewAllLink && (
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
             <a onClick={() => navigate(viewAllLink)} style={{
-              display: 'inline-block', background: '#C41230', color: 'white', padding: '10px 30px', borderRadius: '25px',
+              display: 'inline-block', background: '#e4042c', color: 'white', padding: '10px 30px', borderRadius: '25px',
               fontWeight: 600, fontSize: '14px', cursor: 'pointer', textDecoration: 'none',
             }}>{t('store.viewAll')}</a>
           </div>
@@ -209,7 +209,7 @@ export default function StorePage() {
         <StoreHeader />
         <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ width: '50px', height: '50px', border: '4px solid #eee', borderTop: '4px solid #C41230', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 15px' }} />
+            <div style={{ width: '50px', height: '50px', border: '4px solid #eee', borderTop: '4px solid #e4042c', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 15px' }} />
             <p style={{ color: '#666' }}>{t('store.loading')}</p>
           </div>
         </div>

@@ -120,7 +120,7 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
             style={{
               position: 'absolute', bottom: '8px', left: '8px',
               background: 'transparent',
-              color: '#C41230',
+              color: '#e4042c',
               border: 'none',
               borderRadius: '0', width: '38px', height: '38px',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -129,7 +129,7 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
               opacity: hovered ? 1 : 0,
               pointerEvents: hovered ? 'auto' : 'none',
             }}>
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="#C41230">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="#e4042c">
               <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
             </svg>
           </button>
@@ -161,7 +161,7 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
             {/* Old price centered below current price */}
             {hasDiscount && (
               <div style={{ textAlign: 'center', marginTop: '4px' }}>
-                <span style={{ fontSize: '13px', color: '#C41230', textDecoration: 'line-through', fontWeight: 500 }}>
+                <span style={{ fontSize: '13px', color: '#e4042c', textDecoration: 'line-through', fontWeight: 500 }}>
                   {isCatchWeight ? `KG/KD${variant.compareAtPrice}` : `KD ${variant.compareAtPrice}`}
                 </span>
               </div>
@@ -173,7 +173,7 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
         {hasDiscount && (
           <div style={{ position: 'absolute', bottom: '8px', left: '8px' }}>
             <span style={{
-              background: '#C41230', color: 'white',
+              background: '#e4042c', color: 'white',
               borderRadius: '20px', fontSize: '12px', fontWeight: 700,
               padding: '4px 12px',
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
