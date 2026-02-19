@@ -10,7 +10,8 @@ export default function CartDrawer() {
 
   const total = getCartTotal();
   const count = getCartCount();
-  const freeShippingThreshold = 15;
+  const freeShippingThreshold = 20;
+  const remaining = Math.max(freeShippingThreshold - total, 0);
   const progress = Math.min((total / freeShippingThreshold) * 100, 100);
   const qualifiesForFreeShipping = total >= freeShippingThreshold;
 
@@ -87,8 +88,8 @@ export default function CartDrawer() {
         <div style={{ padding: '14px 20px', borderBottom: '1px solid #eee' }}>
           <div style={{ fontSize: '13px', color: '#333', marginBottom: '8px', textAlign: 'center' }}>
             {qualifiesForFreeShipping
-              ? 'مبروك! أنت مؤهل للحصول على توصيل مجاني.'
-              : `أضف ${(freeShippingThreshold - total).toFixed(3)} د.ك للحصول على توصيل مجاني`
+              ? 'مبروك! أنت مؤهل للحصول على توصيل مجاني!'
+              : `أنت على بعد ${remaining.toFixed(3)} د.ك للحصول على توصيل مجاني!`
             }
           </div>
           <div style={{
