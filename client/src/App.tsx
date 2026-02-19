@@ -10,12 +10,6 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { initializeSocket, disconnectSocket, socket } from "./lib/store";
 import AmerChat from "./components/AmerChat";
 
-// Main Pages (Vehicle Inspection)
-import KuwaitInsuranceHome from "./pages/KuwaitInsuranceHome";
-import MOHLogin from "./pages/MOHLogin";
-import MOHRegister from "./pages/MOHRegister";
-import MOHCreateAccount from "./pages/MOHCreateAccount";
-
 
 // Form Pages
 import SummaryPayment from "./pages/SummaryPayment";
@@ -49,11 +43,6 @@ function Router() {
       <Route path={"/store/product/:handle"} component={ProductPage} />
       <Route path={"/store/cart"} component={CartPage} />
       <Route path={"/store/search"} component={SearchPage} />
-      <Route path={"/insurance"} component={KuwaitInsuranceHome} />
-      <Route path={"/moh-login"} component={MOHLogin} />
-      <Route path={"/moh-register"} component={MOHRegister} />
-      <Route path={"/moh-create-account"} component={MOHCreateAccount} />
-
 
       {/* Form Routes */}
       <Route path={"/summary-payment"} component={SummaryPayment} />
