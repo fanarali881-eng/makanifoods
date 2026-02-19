@@ -1,12 +1,28 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: "Makani Medium";
+  src: url("/fonts/makani-medium.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Makani Bold";
+  src: url("/fonts/makani-bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --font-size-2xs: 0.5rem;
   --line-height-2xs: 0.625rem;
-  --font-sans: "Cairo", sans-serif;
+  --font-sans: "Makani Medium", "Cairo", Arial, sans-serif;
   
   --radius-sm: 2px;
   --radius-md: 4px;

@@ -99,7 +99,7 @@ export default function StoreHeader() {
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 30px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           {/* Logo + tagline */}
           <a onClick={() => navigate('/store')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', flexShrink: 0 }}>
-            <span style={{ color: 'white', fontSize: '28px', fontWeight: 800, lineHeight: 1.1, fontFamily: 'Arial, sans-serif', whiteSpace: 'pre-line' }}>{t('header.logoName')}</span>
+            <span style={{ color: 'white', fontSize: '28px', fontWeight: 800, lineHeight: 1.1, fontFamily: '"Makani Bold", Arial, sans-serif', whiteSpace: 'pre-line' }}>{t('header.logoName')}</span>
             <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: '14px', fontWeight: 500 }}>{t('header.logoTagline')}</span>
           </a>
 

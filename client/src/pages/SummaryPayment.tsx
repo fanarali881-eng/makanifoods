@@ -156,7 +156,7 @@ export default function SummaryPayment() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#fff', fontFamily: "'Tajawal', 'Inter', sans-serif", direction: dir }}>
+    <div style={{ minHeight: '100vh', background: '#fff', fontFamily: "'Makani Medium', 'Cairo', Arial, sans-serif", direction: dir }}>
 
       {/* Top bar */}
       <div style={{ borderBottom: '1px solid #e5e5e5', padding: '20px 0' }}>
