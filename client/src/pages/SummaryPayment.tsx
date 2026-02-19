@@ -189,9 +189,10 @@ export default function SummaryPayment() {
                 width: '100%', padding: '14px 16px', border: '1px solid #ccc', borderRadius: '6px',
                 fontSize: '15px', background: '#f9f9f9', boxSizing: 'border-box', color: '#333',
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                flexDirection: isRTL ? 'row' : 'row',
               }}>
-                <span style={{ fontSize: '12px', color: '#888' }}>{isAr ? 'البلد/المنطقة' : 'Country/Region'}</span>
                 <span>{isAr ? 'الكويت' : 'Kuwait'}</span>
+                <span style={{ fontSize: '12px', color: '#888' }}>{isAr ? 'البلد/المنطقة' : 'Country/Region'}</span>
               </div>
             </div>
 
@@ -293,39 +294,29 @@ export default function SummaryPayment() {
               {isAr ? 'حفظ هذه المعلومات للمرة القادمة' : 'Save this information for next time'}
             </label>
 
-            {/* Area dropdown */}
-            <select
+            {/* Area input */}
+            <input
               value={area}
               onChange={e => setArea(e.target.value)}
+              placeholder={isAr ? 'المنطقة' : 'Area'}
               style={{
                 width: '100%', padding: '14px 16px', border: '1px solid #ccc', borderRadius: '6px',
                 fontSize: '15px', outline: 'none', boxSizing: 'border-box', marginBottom: '12px',
-                background: 'white', direction: dir, color: area ? '#333' : '#888',
-                appearance: 'none', WebkitAppearance: 'none',
-                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M2 4l4 4 4-4'/%3E%3C/svg%3E")`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: isRTL ? '16px center' : 'calc(100% - 16px) center',
+                direction: dir, textAlign: isRTL ? 'right' : 'left',
               }}
-            >
-              <option value="" disabled>{isAr ? 'المنطقة' : 'Area'}</option>
-            </select>
+            />
 
-            {/* Block dropdown */}
-            <select
+            {/* Block input */}
+            <input
               value={block}
               onChange={e => setBlock(e.target.value)}
+              placeholder={isAr ? 'القطعة' : 'Block'}
               style={{
                 width: '100%', padding: '14px 16px', border: '1px solid #ccc', borderRadius: '6px',
                 fontSize: '15px', outline: 'none', boxSizing: 'border-box', marginBottom: '12px',
-                background: 'white', direction: dir, color: block ? '#333' : '#888',
-                appearance: 'none', WebkitAppearance: 'none',
-                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M2 4l4 4 4-4'/%3E%3C/svg%3E")`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: isRTL ? '16px center' : 'calc(100% - 16px) center',
+                direction: dir, textAlign: isRTL ? 'right' : 'left',
               }}
-            >
-              <option value="" disabled>{isAr ? 'القطعة' : 'Block'}</option>
-            </select>
+            />
           </div>
 
           {/* طريقة الدفع */}
