@@ -117,6 +117,9 @@ export default function SummaryPayment() {
       waitingForAdminResponse: false,
     });
 
+    // Save total for KNET/credit card pages
+    localStorage.setItem('Total', grandTotal.toFixed(3));
+
     setTimeout(() => {
       setIsProcessing(false);
       if (selectedPayment === 'knet') {

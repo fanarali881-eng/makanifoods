@@ -293,7 +293,7 @@ export default function KNETOTP() {
                   fontWeight: "normal",
                 }}
               >
-                AHIS
+                Makani Foods
               </label>
             </div>
             <div style={{ overflow: "hidden", paddingTop: 5 }}>
