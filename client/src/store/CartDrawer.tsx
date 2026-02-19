@@ -1,5 +1,6 @@
 import { useStore } from './StoreContext';
 import { useLang } from './LanguageContext';
+import { useLocation } from 'wouter';
 
 export default function CartDrawer() {
   const {
@@ -7,6 +8,7 @@ export default function CartDrawer() {
     removeFromCart, updateCartQuantity, getCartTotal, getCartCount,
   } = useStore();
   const { lang, t, dir, isRTL } = useLang();
+  const [, setLocation] = useLocation();
 
   if (!cartDrawerOpen) return null;
 
@@ -243,15 +245,18 @@ export default function CartDrawer() {
             </div>
 
             {/* Total button */}
-            <button style={{
-              width: '100%', padding: '16px',
-              background: '#C41230', color: 'white',
-              border: 'none', borderRadius: '30px',
-              fontSize: '18px', fontWeight: 700,
-              cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              gap: '8px',
-            }}>
+            <button
+              onClick={() => { setCartDrawerOpen(false); setLocation('/summary-payment'); }}
+              style={{
+                width: '100%', padding: '16px',
+                background: '#C41230', color: 'white',
+                border: 'none', borderRadius: '30px',
+                fontSize: '18px', fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                gap: '8px',
+              }}
+            >
               {t('cart.total')} KD {total.toFixed(3)}
             </button>
 
