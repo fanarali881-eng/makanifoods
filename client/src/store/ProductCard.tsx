@@ -151,9 +151,9 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
               {isCatchWeight ? `KG/KD${variant?.price}` : `KD ${variant?.price}`}
             </span>
           </div>
-          {/* Old price + discount badge */}
+          {/* Old price centered below current price */}
           {hasDiscount && (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '8px', marginTop: '4px', direction: 'ltr' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '4px' }}>
               <span style={{
                 background: '#C41230', color: 'white',
                 borderRadius: '20px', fontSize: '12px', fontWeight: 700,
