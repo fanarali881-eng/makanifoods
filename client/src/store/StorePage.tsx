@@ -143,21 +143,21 @@ function CategoryCards() {
             display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', fontSize: '18px',
           }}>‹</button>
           <div ref={scrollRef} style={{
-            display: 'flex', gap: '15px', overflowX: 'auto', scrollBehavior: 'smooth', padding: '5px 0',
+            display: 'flex', gap: '20px', overflowX: 'auto', scrollBehavior: 'smooth', padding: '5px 0',
             scrollbarWidth: 'none',
           }}>
             {cats.map(cat => (
               <div key={cat.handle} onClick={() => navigate(`/store/collection/${cat.handle}`)}
                 style={{
-                  minWidth: '280px', maxWidth: '280px', flexShrink: 0, cursor: 'pointer',
+                  minWidth: 'calc(33.333% - 14px)', maxWidth: 'calc(33.333% - 14px)', flexShrink: 0, cursor: 'pointer',
                   borderRadius: '12px', overflow: 'hidden', border: '1px solid #eee',
                   display: 'flex', alignItems: 'center', background: 'white',
-                  transition: 'box-shadow 0.2s', height: '120px',
+                  transition: 'box-shadow 0.2s', height: '160px',
                 }}
                 onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.12)')}
                 onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>
-                <img src={cat.image} alt={cat.title} style={{ width: '120px', height: '120px', objectFit: 'cover' }} />
-                <div style={{ padding: '15px', fontSize: '15px', fontWeight: 600, color: '#333', direction: 'rtl', flex: 1 }}>{cat.title}</div>
+                <img src={cat.image} alt={cat.title} style={{ width: '200px', height: '160px', objectFit: 'cover' }} />
+                <div style={{ padding: '20px', fontSize: '18px', fontWeight: 700, color: '#333', direction: 'rtl', flex: 1, textAlign: 'center' }}>{cat.title}</div>
               </div>
             ))}
           </div>
