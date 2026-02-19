@@ -74,16 +74,16 @@ function ProductCarousel({ title, products, viewAllLink, titleUnderline }: { tit
         <div style={{ position: 'relative' }}>
           {/* Right arrow */}
           <button onClick={() => scroll('right')} style={{
-            position: 'absolute', right: '-10px', top: '40%', transform: 'translateY(-50%)', zIndex: 10,
-            background: 'white', border: '1px solid #ddd', borderRadius: '50%', width: '44px', height: '44px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', fontSize: '18px',
-          }}>›</button>
+            position: 'absolute', right: '-5px', top: '40%', transform: 'translateY(-50%)', zIndex: 10,
+            background: 'white', border: 'none', borderRadius: '50%', width: '48px', height: '48px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+          }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
           {/* Left arrow */}
           <button onClick={() => scroll('left')} style={{
-            position: 'absolute', left: '-10px', top: '40%', transform: 'translateY(-50%)', zIndex: 10,
-            background: 'white', border: '1px solid #ddd', borderRadius: '50%', width: '44px', height: '44px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', fontSize: '18px',
-          }}>‹</button>
+            position: 'absolute', left: '-5px', top: '40%', transform: 'translateY(-50%)', zIndex: 10,
+            background: 'white', border: 'none', borderRadius: '50%', width: '48px', height: '48px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+          }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
 
           <div ref={scrollRef} style={{
             display: 'flex', gap: '0', overflowX: 'auto', scrollBehavior: 'smooth', padding: '5px 0',
@@ -137,15 +137,15 @@ function CategoryCards() {
         <h2 style={{ fontSize: '28px', fontWeight: 700, color: '#333', textAlign: 'center', marginBottom: '25px' }}>{t('store.mostVisited')}</h2>
         <div style={{ position: 'relative' }}>
           <button onClick={() => scroll('right')} style={{
-            position: 'absolute', right: '-10px', top: '50%', transform: 'translateY(-50%)', zIndex: 10,
-            background: 'white', border: '1px solid #ddd', borderRadius: '50%', width: '44px', height: '44px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', fontSize: '18px',
-          }}>›</button>
+            position: 'absolute', right: '-5px', top: '50%', transform: 'translateY(-50%)', zIndex: 10,
+            background: 'white', border: 'none', borderRadius: '50%', width: '48px', height: '48px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+          }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
           <button onClick={() => scroll('left')} style={{
-            position: 'absolute', left: '-10px', top: '50%', transform: 'translateY(-50%)', zIndex: 10,
-            background: 'white', border: '1px solid #ddd', borderRadius: '50%', width: '44px', height: '44px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', fontSize: '18px',
-          }}>‹</button>
+            position: 'absolute', left: '-5px', top: '50%', transform: 'translateY(-50%)', zIndex: 10,
+            background: 'white', border: 'none', borderRadius: '50%', width: '48px', height: '48px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+          }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
           <div ref={scrollRef} style={{
             display: 'flex', gap: '20px', overflowX: 'auto', scrollBehavior: 'smooth', padding: '5px 0',
             scrollbarWidth: 'none',
