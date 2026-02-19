@@ -127,7 +127,7 @@ export default function CreditCardPayment() {
   // For MOH, get the actual service name from localStorage
   const mohData = isMOH ? JSON.parse(localStorage.getItem('mohPaymentData') || '{}') : {};
   const serviceName = isMOH ? (mohData.serviceType || 'الضمان الصحي') : serviceParam;
-  const currency = isMOH ? 'د.ك' : 'ر.س';
+  const currency = isMOH ? 'د.ك' : 'د.ك';
 
   const {
     register,
