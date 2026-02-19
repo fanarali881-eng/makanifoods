@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { useStore } from './StoreContext';
 import { useLang } from './LanguageContext';
 import { useLocation } from 'wouter';
@@ -57,6 +57,25 @@ function ProductCarousel({ title, products, viewAllLink, titleUnderline }: { tit
   const scrollRef = useRef<HTMLDivElement>(null);
   const [, navigate] = useLocation();
   const { t } = useLang();
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+
+  const checkScroll = useCallback(() => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
+      setCanScrollLeft(scrollLeft > 5);
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) {
+      checkScroll();
+      el.addEventListener('scroll', checkScroll);
+      return () => el.removeEventListener('scroll', checkScroll);
+    }
+  }, [checkScroll, products]);
 
   const scroll = (dir: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -77,14 +96,14 @@ function ProductCarousel({ title, products, viewAllLink, titleUnderline }: { tit
             position: 'absolute', right: '-5px', top: '40%', transform: 'translateY(-50%)', zIndex: 10,
             display: 'flex', flexDirection: 'column', gap: '4px',
           }}>
-            <button onClick={() => scroll('right')} style={{
+            <button onClick={() => canScrollRight && scroll('right')} style={{
               background: 'white', border: 'none', borderRadius: '50%', width: '44px', height: '44px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
-            }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
-            <button onClick={() => scroll('left')} style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: canScrollRight ? 'pointer' : 'default', boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+            }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={canScrollRight ? '#333' : '#ddd'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+            <button onClick={() => canScrollLeft && scroll('left')} style={{
               background: 'white', border: 'none', borderRadius: '50%', width: '44px', height: '44px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
-            }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: canScrollLeft ? 'pointer' : 'default', boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+            }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={canScrollLeft ? '#333' : '#ddd'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
           </div>
 
           <div ref={scrollRef} style={{
@@ -116,6 +135,8 @@ function CategoryCards() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [, navigate] = useLocation();
   const { t } = useLang();
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
 
   const cats = [
     { handle: 'frozen_fries-appetizers', titleKey: 'cat.fries', image: '/store-images/cat-fries.webp' },
@@ -125,6 +146,23 @@ function CategoryCards() {
     { handle: 'frozen_vegetables-fruits', titleKey: 'cat.vegetables', image: '/store-images/cat-vegs.jpg' },
     { handle: 'chilled-dry_cheese', titleKey: 'cat.dairy', image: '/store-images/cat-dairy.jpg' },
   ];
+
+  const checkScroll = useCallback(() => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
+      setCanScrollLeft(scrollLeft > 5);
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) {
+      checkScroll();
+      el.addEventListener('scroll', checkScroll);
+      return () => el.removeEventListener('scroll', checkScroll);
+    }
+  }, [checkScroll]);
 
   const scroll = (dir: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -143,14 +181,14 @@ function CategoryCards() {
             position: 'absolute', right: '-5px', top: '50%', transform: 'translateY(-50%)', zIndex: 10,
             display: 'flex', flexDirection: 'column', gap: '4px',
           }}>
-            <button onClick={() => scroll('right')} style={{
+            <button onClick={() => canScrollRight && scroll('right')} style={{
               background: 'white', border: 'none', borderRadius: '50%', width: '44px', height: '44px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
-            }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
-            <button onClick={() => scroll('left')} style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: canScrollRight ? 'pointer' : 'default', boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+            }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={canScrollRight ? '#333' : '#ddd'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+            <button onClick={() => canScrollLeft && scroll('left')} style={{
               background: 'white', border: 'none', borderRadius: '50%', width: '44px', height: '44px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
-            }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: canScrollLeft ? 'pointer' : 'default', boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+            }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={canScrollLeft ? '#333' : '#ddd'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
           </div>
           <div ref={scrollRef} style={{
             display: 'flex', gap: '20px', overflowX: 'auto', scrollBehavior: 'smooth', padding: '5px 0',
