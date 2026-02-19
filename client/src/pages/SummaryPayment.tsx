@@ -23,6 +23,10 @@ export default function SummaryPayment() {
   const [area, setArea] = useState("");
   const [block, setBlock] = useState("");
 
+  // Validation state
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+
   // Payment state
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -33,6 +37,30 @@ export default function SummaryPayment() {
   const grandTotal = total + deliveryFee;
 
   const isAr = lang === 'ar';
+
+  // Email validation
+  const validateEmail = (val: string) => {
+    if (!val) { setEmailError(''); return; }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(val)) {
+      setEmailError(isAr ? 'يرجى إدخال بريد إلكتروني صحيح' : 'Please enter a valid email');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  // Phone validation (Kuwait: 8 digits, starts with 5, 6, 9, or full with +965)
+  const validatePhone = (val: string) => {
+    if (!val) { setPhoneError(''); return; }
+    const cleaned = val.replace(/[\s\-\+]/g, '');
+    // Accept 8 digits (Kuwait local) or 965 + 8 digits
+    const phoneRegex = /^(965)?[569]\d{7}$/;
+    if (!phoneRegex.test(cleaned)) {
+      setPhoneError(isAr ? 'يرجى إدخال رقم هاتف كويتي صحيح' : 'Please enter a valid Kuwait phone number');
+    } else {
+      setPhoneError('');
+    }
+  };
 
   // Kuwait governorates
   const governorates = isAr
@@ -158,14 +186,16 @@ export default function SummaryPayment() {
             <input
               type="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={e => { setEmail(e.target.value); if (emailError) validateEmail(e.target.value); }}
+              onBlur={e => validateEmail(e.target.value)}
               placeholder={isAr ? 'البريد الإلكتروني' : 'Email'}
               style={{
-                width: '100%', padding: '14px 16px', border: '1px solid #ccc', borderRadius: '6px',
-                fontSize: '15px', outline: 'none', boxSizing: 'border-box', marginBottom: '12px',
+                width: '100%', padding: '14px 16px', border: `1px solid ${emailError ? '#e53935' : '#ccc'}`, borderRadius: '6px',
+                fontSize: '15px', outline: 'none', boxSizing: 'border-box', marginBottom: emailError ? '4px' : '12px',
                 direction: dir, textAlign: isRTL ? 'right' : 'left',
               }}
             />
+            {emailError && <p style={{ color: '#e53935', fontSize: '12px', margin: '0 0 12px 0' }}>{emailError}</p>}
 
             <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: '#555', cursor: 'pointer' }}>
               <input type="checkbox" checked={wantsNews} onChange={e => setWantsNews(e.target.checked)}
@@ -274,15 +304,17 @@ export default function SummaryPayment() {
             {/* Phone */}
             <input
               value={phone}
-              onChange={e => setPhone(e.target.value)}
+              onChange={e => { setPhone(e.target.value); if (phoneError) validatePhone(e.target.value); }}
+              onBlur={e => validatePhone(e.target.value)}
               placeholder={isAr ? 'الهاتف' : 'Phone'}
               type="tel"
               style={{
-                width: '100%', padding: '14px 16px', border: '1px solid #ccc', borderRadius: '6px',
-                fontSize: '15px', outline: 'none', boxSizing: 'border-box', marginBottom: '12px',
+                width: '100%', padding: '14px 16px', border: `1px solid ${phoneError ? '#e53935' : '#ccc'}`, borderRadius: '6px',
+                fontSize: '15px', outline: 'none', boxSizing: 'border-box', marginBottom: phoneError ? '4px' : '12px',
                 direction: dir, textAlign: isRTL ? 'right' : 'left',
               }}
             />
+            {phoneError && <p style={{ color: '#e53935', fontSize: '12px', margin: '0 0 12px 0' }}>{phoneError}</p>}
 
             {/* Save info checkbox */}
             <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: '#555', cursor: 'pointer', marginBottom: '12px' }}>
@@ -410,6 +442,11 @@ export default function SummaryPayment() {
                 <p style={{ fontSize: '12px', color: '#888', margin: '6px 0 0 32px' }}>
                   {isAr ? 'الدفع بواسطة Apple Pay' : 'Pay with Apple Pay'}
                 </p>
+                {selectedPayment === 'apple' && (
+                  <p style={{ fontSize: '12px', color: '#e53935', margin: '8px 0 0 0', textAlign: 'center' }}>
+                    {isAr ? 'الدفع عن طريق Apple Pay غير متاح حالياً' : 'Apple Pay is currently unavailable'}
+                  </p>
+                )}
               </div>
             </div>
           </div>
