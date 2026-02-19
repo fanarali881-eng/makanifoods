@@ -153,8 +153,8 @@ function CategoryCards() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [, navigate] = useLocation();
   const { t } = useLang();
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canNext, setCanNext] = useState(false);
+  const [canPrev, setCanPrev] = useState(false);
 
   const cats = [
     { handle: 'frozen_fries-appetizers', titleKey: 'cat.fries', image: '/store-images/cat-fries.webp' },
@@ -165,41 +165,37 @@ function CategoryCards() {
     { handle: 'chilled-dry_cheese', titleKey: 'cat.dairy', image: '/store-images/cat-dairy.jpg' },
   ];
 
-  const isRTL = document.documentElement.dir === 'rtl' || document.body.style.direction === 'rtl';
-
   const checkScroll = useCallback(() => {
     if (scrollRef.current) {
       const el = scrollRef.current;
       const { scrollLeft, scrollWidth, clientWidth } = el;
-      if (isRTL) {
-        setCanScrollRight(Math.abs(scrollLeft) > 5);
-        setCanScrollLeft(Math.abs(scrollLeft) + clientWidth < scrollWidth - 5);
-      } else {
-        setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
-        setCanScrollLeft(scrollLeft > 5);
-      }
+      const atStart = Math.abs(scrollLeft) < 5;
+      const atEnd = Math.abs(scrollLeft) + clientWidth >= scrollWidth - 5;
+      setCanNext(!atEnd);
+      setCanPrev(!atStart);
     }
-  }, [isRTL]);
+  }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (el) {
-      checkScroll();
+      setTimeout(checkScroll, 100);
       el.addEventListener('scroll', checkScroll);
       window.addEventListener('resize', checkScroll);
       return () => { el.removeEventListener('scroll', checkScroll); window.removeEventListener('resize', checkScroll); };
     }
   }, [checkScroll]);
 
-  const scroll = (dir: 'left' | 'right') => {
-    if (scrollRef.current) {
-      if (isRTL) {
-        const amount = dir === 'right' ? -350 : 350;
-        scrollRef.current.scrollBy({ left: amount, behavior: 'smooth' });
-      } else {
-        const amount = dir === 'left' ? -350 : 350;
-        scrollRef.current.scrollBy({ left: amount, behavior: 'smooth' });
-      }
+  const scrollNext = () => {
+    if (scrollRef.current && canNext) {
+      const isRTL = getComputedStyle(scrollRef.current).direction === 'rtl';
+      scrollRef.current.scrollBy({ left: isRTL ? -350 : 350, behavior: 'smooth' });
+    }
+  };
+  const scrollPrev = () => {
+    if (scrollRef.current && canPrev) {
+      const isRTL = getComputedStyle(scrollRef.current).direction === 'rtl';
+      scrollRef.current.scrollBy({ left: isRTL ? 350 : -350, behavior: 'smooth' });
     }
   };
 
