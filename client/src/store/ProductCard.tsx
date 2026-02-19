@@ -109,22 +109,27 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
           style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', padding: '10px' }}
         />
 
-        {/* Add to cart button - bottom right, only visible on hover */}
+        {/* Add to cart button - bottom left, red cart icon, only visible on hover */}
         <button onClick={handleAdd}
           style={{
-            position: 'absolute', bottom: '8px', right: '8px',
-            background: added ? '#333' : 'white',
-            color: added ? 'white' : '#333',
-            border: '1px solid #ddd',
-            borderRadius: '50%', width: '38px', height: '38px',
+            position: 'absolute', bottom: '8px', left: '8px',
+            background: 'transparent',
+            color: added ? '#333' : '#C41230',
+            border: 'none',
+            borderRadius: '0', width: '38px', height: '38px',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: 'pointer', transition: 'all 0.3s',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-            fontSize: '20px', fontWeight: 300, lineHeight: 1,
+            padding: 0,
             opacity: hovered ? 1 : 0,
             pointerEvents: hovered ? 'auto' : 'none',
           }}>
-          {added ? '✓' : '+'}
+          {added ? (
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="#333"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          ) : (
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="#C41230">
+              <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+          )}
         </button>
       </div>
 
