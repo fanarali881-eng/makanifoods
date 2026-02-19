@@ -33,6 +33,7 @@ export interface SubCategory {
   handle: string;
   title: string;
   titleEn: string;
+  subcategories?: SubCategory[];
 }
 
 export interface Category {
@@ -149,9 +150,14 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   }, [cart]);
 
   const getProductsByCollection = useCallback((handle: string) => {
+    // First try collectionProducts map (for curated collections like frontpage, new-arrivals)
     const ids = collectionProducts[handle] || [];
-    const idMap = new Map(products.map(p => [p.id, p]));
-    return ids.map(id => idMap.get(id)).filter(Boolean) as Product[];
+    if (ids.length > 0) {
+      const idMap = new Map(products.map(p => [p.id, p]));
+      return ids.map(id => idMap.get(id)).filter(Boolean) as Product[];
+    }
+    // Fallback: filter products by collections field
+    return products.filter(p => (p as any).collections && (p as any).collections.includes(handle));
   }, [products, collectionProducts]);
 
   const getProductByHandle = useCallback((handle: string) => {
