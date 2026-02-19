@@ -8,7 +8,7 @@ interface QuickAddModalProps {
 }
 
 export default function QuickAddModal({ product, onClose }: QuickAddModalProps) {
-  const { addToCart } = useStore();
+  const { addToCart, setCartDrawerOpen } = useStore();
   const [, navigate] = useLocation();
   const [selectedVariant, setSelectedVariant] = useState<Variant>(product.variants[0]);
   const [added, setAdded] = useState(false);
@@ -16,11 +16,8 @@ export default function QuickAddModal({ product, onClose }: QuickAddModalProps) 
   const handleAdd = () => {
     if (selectedVariant) {
       addToCart(product, selectedVariant);
-      setAdded(true);
-      setTimeout(() => {
-        setAdded(false);
-        onClose();
-      }, 1000);
+      onClose();
+      setCartDrawerOpen(true);
     }
   };
 

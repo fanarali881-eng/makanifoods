@@ -3,7 +3,7 @@ import { useStore } from './StoreContext';
 import { useLocation } from 'wouter';
 
 export default function StoreHeader() {
-  const { categories, getCartCount, searchQuery, setSearchQuery, searchProducts } = useStore();
+  const { categories, getCartCount, searchQuery, setSearchQuery, searchProducts, setCartDrawerOpen } = useStore();
   const [, navigate] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState<string | null>(null);
@@ -121,7 +121,7 @@ export default function StoreHeader() {
             <a style={{ cursor: 'pointer', padding: '4px' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </a>
-            <a onClick={() => navigate('/store/cart')} style={{ cursor: 'pointer', position: 'relative', padding: '4px' }}>
+            <a onClick={() => setCartDrawerOpen(true)} style={{ cursor: 'pointer', position: 'relative', padding: '4px' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
               {cartCount > 0 && (
                 <span style={{ position: 'absolute', top: '-6px', left: '-6px', background: 'white', color: '#C41230', borderRadius: '50%', width: '18px', height: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold' }}>

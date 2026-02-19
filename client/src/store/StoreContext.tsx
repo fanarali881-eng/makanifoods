@@ -66,6 +66,8 @@ interface StoreContextType {
   getProductsByCollection: (handle: string) => Product[];
   getProductByHandle: (handle: string) => Product | undefined;
   searchProducts: (query: string) => Product[];
+  cartDrawerOpen: boolean;
+  setCartDrawerOpen: (open: boolean) => void;
 }
 
 const StoreContext = createContext<StoreContextType | null>(null);
@@ -82,6 +84,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
 
   // Load store data
   useEffect(() => {
@@ -181,6 +184,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       searchQuery, setSearchQuery,
       addToCart, removeFromCart, updateCartQuantity, clearCart,
       getCartTotal, getCartCount, getProductsByCollection, getProductByHandle, searchProducts,
+      cartDrawerOpen, setCartDrawerOpen,
     }}>
       {children}
     </StoreContext.Provider>

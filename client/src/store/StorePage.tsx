@@ -4,6 +4,7 @@ import { useLocation } from 'wouter';
 import ProductCard from './ProductCard';
 import StoreHeader from './StoreHeader';
 import StoreFooter from './StoreFooter';
+import CartDrawer from './CartDrawer';
 
 /* ── Hero Slider ── */
 function HeroSlider() {
@@ -221,6 +222,7 @@ export default function StorePage() {
   return (
     <div dir="rtl" style={{ background: '#fff', minHeight: '100vh' }}>
       <StoreHeader />
+      <CartDrawer />
 
       {/* Hero Slider */}
       <HeroSlider />

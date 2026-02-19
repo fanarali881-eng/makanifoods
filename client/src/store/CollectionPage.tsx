@@ -4,6 +4,7 @@ import { useRoute, useLocation } from 'wouter';
 import ProductCard from './ProductCard';
 import StoreHeader from './StoreHeader';
 import StoreFooter from './StoreFooter';
+import CartDrawer from './CartDrawer';
 
 export default function CollectionPage() {
   const { products, getProductsByCollection, categories, isLoading } = useStore();
@@ -143,6 +144,7 @@ export default function CollectionPage() {
   return (
     <div dir="rtl" style={{ background: '#fafafa', minHeight: '100vh' }}>
       <StoreHeader />
+      <CartDrawer />
 
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '20px' }}>
         {/* Breadcrumb */}
