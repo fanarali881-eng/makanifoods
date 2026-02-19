@@ -177,7 +177,7 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             whiteSpace: 'nowrap',
           }}>
-            -{discountPercent}%
+            {discountPercent}%-
           </span>
         </div>
       )}
