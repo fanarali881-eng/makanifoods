@@ -10,13 +10,14 @@ interface ProductCardProps {
 export default function ProductCard({ product, compact }: ProductCardProps) {
   const { addToCart } = useStore();
   const [, navigate] = useLocation();
-  const [selectedVariant, setSelectedVariant] = useState(0);
   const [added, setAdded] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
-  const variant = product.variants[selectedVariant];
+  const variant = product.variants[0];
   const hasDiscount = variant?.compareAtPrice && parseFloat(variant.compareAtPrice) > parseFloat(variant.price);
   const discountPercent = hasDiscount ? Math.round((1 - parseFloat(variant.price) / parseFloat(variant.compareAtPrice!)) * 100) : 0;
   const isCatchWeight = product.tags?.includes('catch_weight_item');
+  const hasMultipleVariants = product.variants.length > 1;
 
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -37,6 +38,8 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
       height: '100%',
       position: 'relative',
     }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       onClick={() => navigate(`/store/product/${product.handle}`)}>
       {/* Image */}
       <div style={{ position: 'relative', paddingTop: '100%', background: '#fff' }}>
@@ -79,7 +82,7 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
             -{discountPercent}%
           </span>
         )}
-        {/* Add to cart button - bottom right */}
+        {/* Add to cart button - bottom right, only visible on hover */}
         <button onClick={handleAdd}
           style={{
             position: 'absolute', bottom: '8px', right: '8px',
@@ -88,9 +91,11 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
             border: '1px solid #ddd',
             borderRadius: '50%', width: '38px', height: '38px',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer', transition: 'all 0.2s',
+            cursor: 'pointer', transition: 'all 0.3s',
             boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
             fontSize: '20px', fontWeight: 300, lineHeight: 1,
+            opacity: hovered ? 1 : 0,
+            pointerEvents: hovered ? 'auto' : 'none',
           }}>
           {added ? '✓' : '+'}
         </button>
@@ -98,9 +103,9 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
 
       {/* Info */}
       <div style={{ padding: '12px 8px', flex: 1, display: 'flex', flexDirection: 'column', direction: 'rtl', textAlign: 'center' }}>
-        {/* Product title */}
+        {/* Product title - larger */}
         <div style={{
-          fontSize: '14px', fontWeight: 500, color: '#333', marginBottom: '4px',
+          fontSize: '15px', fontWeight: 500, color: '#333', marginBottom: '4px',
           lineHeight: 1.4, overflow: 'hidden', textOverflow: 'ellipsis',
           display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as any,
         }}>
@@ -114,7 +119,7 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
         <div style={{ marginTop: 'auto' }}>
           {/* Price */}
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '4px', flexWrap: 'wrap' }}>
-            {!isCatchWeight && product.variants.length > 1 && <span style={{ fontSize: '12px', color: '#999' }}>من</span>}
+            {!isCatchWeight && hasMultipleVariants && <span style={{ fontSize: '12px', color: '#999' }}>من</span>}
             <span style={{ fontSize: '15px', fontWeight: 700, color: '#333' }}>
               {isCatchWeight ? `KG/KD${variant?.price}` : `KD ${variant?.price}`}
             </span>
@@ -125,26 +130,6 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
               <span style={{ fontSize: '13px', color: '#C41230', textDecoration: 'line-through', fontWeight: 500 }}>
                 {isCatchWeight ? `KG/KD${variant.compareAtPrice}` : `KD ${variant.compareAtPrice}`}
               </span>
-            </div>
-          )}
-
-          {/* Variant selector - pill style like original */}
-          {product.variants.length > 1 && (
-            <div style={{ display: 'flex', gap: '4px', marginTop: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
-              {product.variants.map((v, i) => (
-                <button key={v.id} onClick={e => { e.stopPropagation(); setSelectedVariant(i); }}
-                  style={{
-                    padding: '5px 12px', fontSize: '11px',
-                    borderRadius: '20px', cursor: 'pointer',
-                    background: selectedVariant === i ? '#333' : 'white',
-                    color: selectedVariant === i ? 'white' : '#555',
-                    border: selectedVariant === i ? '1px solid #333' : '1px solid #ddd',
-                    fontWeight: selectedVariant === i ? 600 : 400,
-                    whiteSpace: 'nowrap',
-                  }}>
-                  {v.title}
-                </button>
-              ))}
             </div>
           )}
         </div>
