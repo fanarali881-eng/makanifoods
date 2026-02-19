@@ -182,10 +182,10 @@ function BrandLogos() {
 
   return (
     <section style={{ padding: '50px 0', background: '#fff' }}>
-      <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '0 40px', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '30px', alignItems: 'center' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px', display: 'flex', justifyContent: 'space-between', flexWrap: 'nowrap', gap: '20px', alignItems: 'center' }}>
         {brands.map(b => (
-          <div key={b.name} style={{ width: '150px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img src={b.logo} alt={b.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+          <div key={b.name} style={{ flex: '1 1 0', minWidth: 0, height: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src={b.logo} alt={b.name} style={{ maxWidth: '140px', maxHeight: '90px', objectFit: 'contain' }}
               onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
           </div>
         ))}
