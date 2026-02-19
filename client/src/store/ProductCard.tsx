@@ -153,16 +153,7 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
           </div>
           {/* Old price centered below current price */}
           {hasDiscount && (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '4px' }}>
-              <span style={{
-                background: '#C41230', color: 'white',
-                borderRadius: '20px', fontSize: '12px', fontWeight: 700,
-                padding: '4px 12px',
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                whiteSpace: 'nowrap',
-              }}>
-                -{discountPercent}%
-              </span>
+            <div style={{ textAlign: 'center', marginTop: '4px' }}>
               <span style={{ fontSize: '13px', color: '#C41230', textDecoration: 'line-through', fontWeight: 500 }}>
                 {isCatchWeight ? `KG/KD${variant.compareAtPrice}` : `KD ${variant.compareAtPrice}`}
               </span>
@@ -170,6 +161,21 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
           )}
         </div>
       </div>
+
+      {/* Discount pill badge - bottom left of card */}
+      {hasDiscount && (
+        <div style={{ position: 'absolute', bottom: '8px', left: '8px' }}>
+          <span style={{
+            background: '#C41230', color: 'white',
+            borderRadius: '20px', fontSize: '12px', fontWeight: 700,
+            padding: '4px 12px',
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            whiteSpace: 'nowrap',
+          }}>
+            -{discountPercent}%
+          </span>
+        </div>
+      )}
     </div>
   );
 }
