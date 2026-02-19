@@ -149,13 +149,10 @@ export default function SummaryPayment() {
 
           {/* بيانات المستخدم */}
           <div style={{ marginBottom: '32px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+            <div style={{ marginBottom: '16px' }}>
               <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#333', margin: 0 }}>
                 {isAr ? 'بيانات المستخدم' : 'Contact Information'}
               </h2>
-              <a href="#" style={{ fontSize: '13px', color: '#1a73e8', textDecoration: 'none' }}>
-                {isAr ? 'تسجيل الدخول' : 'Log in'}
-              </a>
             </div>
 
             <input
@@ -534,10 +531,10 @@ export default function SummaryPayment() {
               {isAr ? 'الإجمالي' : 'Total'}
             </span>
             <div style={{ textAlign: isRTL ? 'left' : 'right' }}>
-              <span style={{ fontSize: '12px', color: '#888', marginLeft: '4px', marginRight: '4px' }}>KWD</span>
               <span style={{ fontSize: '22px', fontWeight: 800, color: '#333' }}>
-                {grandTotal.toFixed(3)} {isAr ? 'د.ك.' : ''}
+                {grandTotal.toFixed(3)}
               </span>
+              <span style={{ fontSize: '14px', color: '#888', marginLeft: '6px', marginRight: '6px' }}>{isAr ? 'د.ك.' : 'KWD'}</span>
             </div>
           </div>
         </div>
