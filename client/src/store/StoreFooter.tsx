@@ -12,7 +12,7 @@ export default function StoreFooter() {
           {/* About */}
           <div className="footer-section-about">
             <span className="footer-brand-name" style={{ color: 'white', fontSize: '24px', fontWeight: 800, display: 'block', marginBottom: '15px' }}>{t('footer.brandName')}</span>
-            <p className="footer-about-text" style={{ fontSize: '13px', lineHeight: 1.7, color: '#999' }}>{t('footer.about')}}</p>
+            <p className="footer-about-text" style={{ fontSize: '13px', lineHeight: 1.7, color: '#999' }}>{t('footer.about')}</p>
           </div>
 
           {/* Customer support */}
