@@ -297,7 +297,7 @@ export default function StorePage() {
   const oceansPride = getProductsByCollection('oceans-pride').slice(0, 10);
 
   return (
-    <div dir={dir} style={{ background: '#fff', minHeight: '100vh' }}>
+    <div dir={dir} style={{ background: '#fff', minHeight: '100vh', width: '100%', overflow: 'hidden' }}>
       <StoreHeader />
       <CartDrawer />
 

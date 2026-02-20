@@ -94,11 +94,11 @@ export default function ProductPage() {
   const descHtml = getDescription(product);
 
   return (
-    <div dir={dir} style={{ background: '#fff', minHeight: '100vh' }}>
+    <div dir={dir} style={{ background: '#fff', minHeight: '100vh', width: '100%', overflow: 'hidden' }}>
       <StoreHeader />
       <CartDrawer />
 
-      <div className="product-page-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px 30px' }}>
+      <div className="product-page-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px 30px', width: '100%', overflow: 'hidden' }}>
         {/* Breadcrumb */}
         <div style={{ fontSize: '13px', color: '#999', marginBottom: '10px', display: 'flex', gap: '5px' }}>
           <a onClick={() => navigate('/store')} style={{ color: '#999', cursor: 'pointer', textDecoration: 'none' }}>{t('productPage.home')}</a>
