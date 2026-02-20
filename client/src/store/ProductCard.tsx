@@ -169,7 +169,7 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
 
         {/* Discount pill badge - bottom left of card */}
         {hasDiscount && (
-          <div style={{ position: 'absolute', bottom: '8px', left: '8px' }}>
+          <div className="discount-badge" style={{ position: 'absolute', bottom: '8px', left: '8px' }}>
             <span style={{
               background: '#e4042c', color: 'white',
               borderRadius: '20px', fontSize: '12px', fontWeight: 700,
@@ -190,6 +190,15 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
           onClose={() => setShowModal(false)}
         />
       )}
+      <style>{`
+        @media (max-width: 768px) {
+          .discount-badge span {
+            font-size: 10px !important;
+            padding: 2px 7px !important;
+            border-radius: 12px !important;
+          }
+        }
+      `}</style>
     </>
   );
 }
