@@ -189,10 +189,18 @@ table {
   .store-header-top {
     padding: 6px 12px !important;
     font-size: 11px !important;
+    flex-wrap: wrap;
+  }
+
+  .store-header-top button {
+    font-size: 11px !important;
+    padding: 3px 8px !important;
+    margin-top: 4px !important;
   }
 
   .store-header-main {
-    padding: 0 15px !important;
+    padding: 0 12px !important;
+    gap: 8px !important;
   }
 
   .store-logo {
@@ -204,11 +212,32 @@ table {
   }
 
   .store-header-icons {
-    gap: 10px !important;
+    gap: 8px !important;
+  }
+
+  .store-header-icons button,
+  .store-header-icons a {
+    padding: 4px !important;
   }
 
   .store-header-profile {
     display: none !important;
+  }
+
+  /* Search bar styling for mobile */
+  .store-header-top + div form {
+    display: flex;
+    gap: 6px;
+  }
+
+  .store-header-top + div input {
+    font-size: 13px !important;
+    padding: 6px 10px !important;
+  }
+
+  .store-header-top + div button {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
   }
 }
 
@@ -443,6 +472,55 @@ table {
 
   .footer-payment-methods {
     gap: 6px !important;
+  }
+}
+
+/* Bottom Navigation for Mobile */
+@media (max-width: 768px) {
+  .store-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #e4042c;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 60px;
+    z-index: 50;
+    padding: 0;
+    margin: 0;
+  }
+
+  .store-bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    height: 100%;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 11px;
+    gap: 2px;
+    transition: background 0.2s;
+  }
+
+  .store-bottom-nav-item:hover,
+  .store-bottom-nav-item.active {
+    background: rgba(0,0,0,0.1);
+  }
+
+  .store-bottom-nav-item svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Add padding to main content to avoid overlap with bottom nav */
+  .store-main-content {
+    padding-bottom: 70px !important;
   }
 }
 
