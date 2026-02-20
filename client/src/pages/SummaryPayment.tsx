@@ -165,7 +165,7 @@ export default function SummaryPayment() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#fff', fontFamily: "'Makani Medium', 'Cairo', Arial, sans-serif", direction: dir }}>
+    <div style={{ minHeight: '100vh', background: '#fff', fontFamily: "'Makani Medium', 'Cairo', Arial, sans-serif", direction: dir, width: '100%', maxWidth: '100vw', overflowX: 'hidden', boxSizing: 'border-box' as any }}>
 
       {/* Top bar */}
       <div style={{ borderBottom: '1px solid #e5e5e5', padding: '20px 0' }}>
@@ -597,7 +597,10 @@ export default function SummaryPayment() {
           .summary-main-content {
             flex-direction: column !important;
             gap: 20px !important;
-            padding: 15px 12px !important;
+            padding: 15px 10px !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
           }
           .summary-form-side {
             min-width: 100% !important;
