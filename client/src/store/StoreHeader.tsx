@@ -69,10 +69,11 @@ export default function StoreHeader() {
     <header className="store-header" dir={dir} style={{ position: 'sticky', top: 0, zIndex: 100 }}>
       {/* Top announcement bar */}
       <div className="store-header-top" style={{ background: '#4c4c4c', color: 'white', padding: '8px 20px', fontSize: '13px', textAlign: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
-        <a onClick={() => navigate('/store')} style={{ color: 'white', textDecoration: 'none', cursor: 'pointer', fontWeight: 700 }}>
+        <a className="store-header-banner" onClick={() => navigate('/store')} style={{ color: 'white', textDecoration: 'none', cursor: 'pointer', fontWeight: 700 }}>
           {t('header.freeShippingBanner')}
         </a>
         <button
+          className="store-lang-btn"
           onClick={toggleLang}
           style={{
             position: 'absolute',
@@ -92,6 +93,27 @@ export default function StoreHeader() {
         >
           {lang === 'ar' ? 'English' : 'عربي'}
         </button>
+      </div>
+
+      {/* Mobile Categories Bar */}
+      <div className="store-mobile-categories" style={{ background: '#e4042c', padding: '0', display: 'none', overflowX: 'auto', overflowY: 'hidden' }}>
+        <div style={{ display: 'flex', gap: '0', padding: '0', whiteSpace: 'nowrap' }}>
+          <a onClick={() => navigate('/store/collection/frozen')} style={{ flex: '0 0 auto', padding: '12px 16px', color: 'white', cursor: 'pointer', fontSize: '13px', fontWeight: 500, textDecoration: 'none', borderRight: '1px solid rgba(255,255,255,0.2)' }}>
+            {t('header.frozenFoods')}
+          </a>
+          <a onClick={() => navigate('/store/collection/chilled-dry')} style={{ flex: '0 0 auto', padding: '12px 16px', color: 'white', cursor: 'pointer', fontSize: '13px', fontWeight: 500, textDecoration: 'none', borderRight: '1px solid rgba(255,255,255,0.2)' }}>
+            {t('header.chilledDry')}
+          </a>
+          <a onClick={() => navigate('/store/collection/new-arrivals')} style={{ flex: '0 0 auto', padding: '12px 16px', color: 'white', cursor: 'pointer', fontSize: '13px', fontWeight: 500, textDecoration: 'none', borderRight: '1px solid rgba(255,255,255,0.2)' }}>
+            {t('header.newArrivals')}
+          </a>
+          <a onClick={() => navigate('/store/collection/promotion')} style={{ flex: '0 0 auto', padding: '12px 16px', color: 'white', cursor: 'pointer', fontSize: '13px', fontWeight: 500, textDecoration: 'none', borderRight: '1px solid rgba(255,255,255,0.2)' }}>
+            {t('header.offers')}
+          </a>
+          <a onClick={() => navigate('/store/collection/boxes')} style={{ flex: '0 0 auto', padding: '12px 16px', color: 'white', cursor: 'pointer', fontSize: '13px', fontWeight: 500, textDecoration: 'none' }}>
+            {t('header.boxes')}
+          </a>
+        </div>
       </div>
 
       {/* Main header - Red background */}
