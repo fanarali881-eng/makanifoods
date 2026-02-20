@@ -24,6 +24,8 @@ const translations: Record<string, Record<Lang, string>> = {
   'header.offers': { ar: 'عروض', en: 'Offers' },
   'header.boxes': { ar: 'بوكسات', en: 'Boxes' },
   'header.searchPlaceholder': { ar: 'ابحث عن منتجات...', en: 'Search products...' },
+  'header.search': { ar: 'بحث', en: 'Search' },
+  'header.noResults': { ar: 'لا توجد نتائج', en: 'No results' },
   'header.shopFrozen': { ar: 'تسوق الأطعمة المجمدة', en: 'Shop Frozen Foods' },
   'header.shopChilledDry': { ar: 'تسوق الأطعمة المبردة والجافة', en: 'Shop Chilled & Dry Foods' },
   'header.logoName': { ar: 'مكاني\nفودز', en: 'Makani\nFoods' },
