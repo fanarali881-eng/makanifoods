@@ -146,7 +146,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const clearCart = useCallback(() => setCart([]), []);
 
   const getCartTotal = useCallback(() => {
-    return cart.reduce((total, item) => total + parseFloat(item.variant.price) * item.quantity, 0);
+    return cart.reduce((total, item) => total + parseFloat(item.variant.price) * 0.5 * item.quantity, 0);
   }, [cart]);
 
   const getCartCount = useCallback(() => {

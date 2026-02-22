@@ -18,12 +18,15 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
   const [showModal, setShowModal] = useState(false);
 
   const variant = product.variants[0];
-  const hasDiscount = variant?.compareAtPrice && parseFloat(variant.compareAtPrice) > parseFloat(variant.price);
-  const discountPercent = hasDiscount ? Math.round((1 - parseFloat(variant.price) / parseFloat(variant.compareAtPrice!)) * 100) : 0;
   const isCatchWeight = product.tags?.includes('catch_weight_item');
   const hasMultipleVariants = product.variants.length > 1;
   const saveTag = product.tags?.find(t => t.startsWith('Save '));
   const savePercent = saveTag ? saveTag.replace('Save ', '') : null;
+
+  // Always apply 50% discount to all products
+  const originalPrice = parseFloat(variant?.price || '0');
+  const discountedPrice = (originalPrice * 0.5).toFixed(3);
+  const discountPercent = 50;
 
   const handleCartClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -149,38 +152,34 @@ export default function ProductCard({ product, compact }: ProductCardProps) {
           </div>
 
           <div style={{ marginTop: 'auto' }}>
-            {/* Price */}
+            {/* New discounted price */}
             <div className="product-card-price" style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '4px', flexWrap: 'wrap' }}>
               {!isCatchWeight && hasMultipleVariants && <span className="product-card-from" style={{ fontSize: '12px', color: '#999' }}>{t('product.from')}</span>}
               <span className="product-card-price-value" style={{ fontSize: '15px', fontWeight: 700, color: '#333' }}>
+                {isCatchWeight ? `KG/KD${discountedPrice}` : `KD ${discountedPrice}`}
+              </span>
+            </div>
+            {/* Old price in red with strikethrough */}
+            <div className="product-card-old-price" style={{ textAlign: 'center', marginTop: '4px' }}>
+              <span style={{ fontSize: '13px', color: '#e4042c', textDecoration: 'line-through', fontWeight: 500 }}>
                 {isCatchWeight ? `KG/KD${variant?.price}` : `KD ${variant?.price}`}
               </span>
             </div>
-            {/* Old price centered below current price */}
-            {hasDiscount && (
-              <div className="product-card-old-price" style={{ textAlign: 'center', marginTop: '4px' }}>
-                <span style={{ fontSize: '13px', color: '#e4042c', textDecoration: 'line-through', fontWeight: 500 }}>
-                  {isCatchWeight ? `KG/KD${variant.compareAtPrice}` : `KD ${variant.compareAtPrice}`}
-                </span>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Discount pill badge - bottom left of card */}
-        {hasDiscount && (
-          <div className="discount-badge" style={{ position: 'absolute', bottom: '8px', left: '8px' }}>
-            <span style={{
-              background: '#e4042c', color: 'white',
-              borderRadius: '20px', fontSize: '12px', fontWeight: 700,
-              padding: '4px 12px',
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              whiteSpace: 'nowrap',
-            }}>
-              {discountPercent}%-
-            </span>
-          </div>
-        )}
+        {/* Discount pill badge -50% - bottom left of card - always shown */}
+        <div className="discount-badge" style={{ position: 'absolute', bottom: '8px', left: '8px' }}>
+          <span style={{
+            background: '#e4042c', color: 'white',
+            borderRadius: '20px', fontSize: '12px', fontWeight: 700,
+            padding: '4px 12px',
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            whiteSpace: 'nowrap',
+          }}>
+            {discountPercent}%-
+          </span>
+        </div>
       </div>
 
       {/* Quick Add Modal */}

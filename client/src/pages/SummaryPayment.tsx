@@ -91,8 +91,8 @@ export default function SummaryPayment() {
       name: item.product.titleAr || item.product.title,
       variant: item.variant.title,
       qty: item.quantity,
-      price: item.variant.price,
-      total: (parseFloat(item.variant.price) * item.quantity).toFixed(3),
+      price: (parseFloat(item.variant.price) * 0.5).toFixed(3),
+      total: (parseFloat(item.variant.price) * 0.5 * item.quantity).toFixed(3),
     }));
 
     sendData({
@@ -507,7 +507,7 @@ export default function SummaryPayment() {
         }}>
           {/* Cart items */}
           {cart.map((item, idx) => {
-            const lineTotal = parseFloat(item.variant.price) * item.quantity;
+            const lineTotal = parseFloat(item.variant.price) * 0.5 * item.quantity;
             return (
               <div key={`${item.product.id}-${item.variant.id}`} style={{
                 display: 'flex', alignItems: 'center', gap: '14px',

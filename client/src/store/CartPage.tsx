@@ -12,7 +12,7 @@ export default function CartPage() {
     const cartData = cart.map(item => ({
       name: item.product.titleAr || item.product.title,
       variant: item.variant.title,
-      price: parseFloat(item.variant.price),
+      price: parseFloat(item.variant.price) * 0.5,
       quantity: item.quantity,
       image: item.product.image,
     }));
@@ -63,7 +63,8 @@ export default function CartPage() {
                     {item.variant.title !== 'Default Title' && (
                       <div style={{ fontSize: '12px', color: '#999', marginBottom: '4px' }}>{item.variant.title}</div>
                     )}
-                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#e4042c' }}>{item.variant.price} KD</div>
+                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#333' }}>{(parseFloat(item.variant.price) * 0.5).toFixed(3)} KD</div>
+                    <div style={{ fontSize: '12px', color: '#e4042c', textDecoration: 'line-through' }}>{item.variant.price} KD</div>
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0', border: '1px solid #ddd', borderRadius: '6px', flexShrink: 0 }}>
@@ -75,7 +76,7 @@ export default function CartPage() {
                   </div>
 
                   <div style={{ fontSize: '14px', fontWeight: 600, color: '#333', minWidth: '70px', textAlign: 'center', flexShrink: 0 }}>
-                    {(parseFloat(item.variant.price) * item.quantity).toFixed(3)} KD
+                    {(parseFloat(item.variant.price) * 0.5 * item.quantity).toFixed(3)} KD
                   </div>
 
                   <button onClick={() => removeFromCart(item.product.id, item.variant.id)}

@@ -134,8 +134,8 @@ export default function CartDrawer() {
           ) : (
             cart.map((item, idx) => {
               const isCatchWeight = item.product.tags?.includes('catch_weight_item');
-              const hasDiscount = item.variant.compareAtPrice && parseFloat(item.variant.compareAtPrice) > parseFloat(item.variant.price);
-              const lineTotal = parseFloat(item.variant.price) * item.quantity;
+              const discountedItemPrice = (parseFloat(item.variant.price) * 0.5).toFixed(3);
+              const lineTotal = parseFloat(discountedItemPrice) * item.quantity;
 
               return (
                 <div key={`${item.product.id}-${item.variant.id}`} style={{
@@ -159,12 +159,10 @@ export default function CartDrawer() {
                       {t('cart.packageType')} {getVariantLabel(item.variant.title)}
                     </div>
                     <div style={{ fontSize: '13px', color: '#333', marginBottom: '2px' }}>
-                      {item.quantity} x {item.variant.price} KD
-                      {hasDiscount && (
-                        <span style={{ textDecoration: 'line-through', color: '#999', marginRight: '6px', fontSize: '12px' }}>
-                          {item.variant.compareAtPrice} KD
-                        </span>
-                      )}
+                      {item.quantity} x {discountedItemPrice} KD
+                      <span style={{ textDecoration: 'line-through', color: '#e4042c', marginRight: '6px', fontSize: '12px' }}>
+                        {item.variant.price} KD
+                      </span>
                     </div>
                     <div style={{ fontSize: '14px', fontWeight: 700, color: '#333' }}>
                       {lineTotal.toFixed(3)} KD
