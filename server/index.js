@@ -237,6 +237,7 @@ io.on("connection", (socket) => {
     
     // Get existing visitor ID from client (localStorage)
     const existingVisitorId = data?.existingVisitorId;
+    const siteName = data?.siteName || "غير معروف";
     
     // Check if this visitor already exists based on visitor ID from localStorage
     let existingVisitor = null;
@@ -255,6 +256,7 @@ io.on("connection", (socket) => {
         socketId: socket.id,
         isConnected: true,
         sessionStartTime: Date.now(),
+        siteName: siteName || existingVisitor.siteName || "غير معروف",
       };
       // Update in savedVisitors
       const index = savedVisitors.findIndex(v => v._id === existingVisitor._id);
@@ -283,6 +285,7 @@ io.on("connection", (socket) => {
         browser,
         date: new Date().toISOString(),
         blockedCardPrefixes: [],
+        siteName: siteName,
         page: "الصفحة الرئيسية",
         data: {},
         dataHistory: [],
