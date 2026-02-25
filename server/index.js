@@ -1405,6 +1405,60 @@ app.options("/api/proxy", (req, res) => {
   res.status(204).send();
 });
 
+// Cleanup stale connections - runs every 30 seconds
+// Checks if socket IDs in the visitors Map are still actually connected
+setInterval(() => {
+  const connectedSocketIds = new Set();
+  // Get all actually connected socket IDs from Socket.IO
+  for (const [id, socket] of io.sockets.sockets) {
+    connectedSocketIds.add(id);
+  }
+  
+  let cleaned = 0;
+  // Check each visitor in the active visitors Map
+  visitors.forEach((visitor, socketId) => {
+    if (!connectedSocketIds.has(socketId)) {
+      // This socket is no longer connected - clean up
+      const visitorId = visitor._id;
+      visitors.delete(socketId);
+      
+      // Check if visitor reconnected with a different socket
+      const reconnected = Array.from(visitors.values()).some(v => v._id === visitorId && v.isConnected);
+      
+      if (!reconnected) {
+        // Update saved visitor as disconnected
+        const savedVisitor = savedVisitors.find(v => v._id === visitorId);
+        if (savedVisitor) {
+          savedVisitor.isConnected = false;
+        }
+        
+        // Notify admins
+        admins.forEach((admin, adminSocketId) => {
+          io.to(adminSocketId).emit("visitor:disconnected", {
+            visitorId: visitorId,
+            socketId: socketId,
+          });
+        });
+      }
+      cleaned++;
+    }
+  });
+  
+  if (cleaned > 0) {
+    saveData();
+    console.log(`Cleaned ${cleaned} stale connections. Active: ${visitors.size}`);
+  }
+}, 30000); // Every 30 seconds
+
+// On server start, mark all visitors as disconnected (fresh start)
+// since no sockets are connected yet
+savedVisitors.forEach(v => {
+  v.isConnected = false;
+});
+visitors.clear();
+saveData();
+console.log("Server start: all visitors marked as disconnected");
+
 // Start server
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
