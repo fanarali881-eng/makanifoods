@@ -10,9 +10,25 @@ require("dotenv").config();
 const app = express();
 const server = http.createServer(app);
 
-// CORS Configuration
+// CORS Configuration - Support multiple client origins
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.CLIENT_URL_2,
+  "https://mazaeal3ean.onrender.com",
+  "https://makanifoods.onrender.com",
+].filter(Boolean);
+
 const corsOptions = {
-  origin: process.env.CLIENT_URL || "*",
+  origin: function(origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, etc)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.length === 0 || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      // Still allow - don't block
+      callback(null, true);
+    }
+  },
   credentials: true,
 };
 
@@ -23,8 +39,13 @@ app.use('/admin', express.static('admin'));
 
 // Socket.IO Configuration
 const io = new Server(server, {
-  cors: corsOptions,
+  cors: {
+    origin: "*",
+    credentials: true,
+  },
   transports: ["websocket", "polling"],
+  pingTimeout: 10000,
+  pingInterval: 5000,
 });
 
 // Data file path
