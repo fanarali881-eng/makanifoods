@@ -1,9 +1,8 @@
 import { signal } from "@preact/signals-react";
 import { io, Socket } from "socket.io-client";
 
-// Socket Configuration - uses VITE_SOCKET_URL env variable to allow different servers per deployment
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 
-  (import.meta.env.MODE === 'production' ? "https://makanifoods-server.onrender.com" : "http://localhost:3001");
+// Socket Configuration - reads from VITE_SOCKET_URL for dynamic server URL
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:3001";
 console.log("Socket URL:", SOCKET_URL);
 
 // Create socket instance
