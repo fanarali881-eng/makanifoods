@@ -23,6 +23,7 @@ const translations: Record<string, Record<Lang, string>> = {
   'header.newArrivals': { ar: 'وصل حديثاً', en: 'New Arrivals' },
   'header.offers': { ar: 'عروض', en: 'Offers' },
   'header.boxes': { ar: 'بوكسات', en: 'Boxes' },
+  'header.water': { ar: 'مياه', en: 'Water' },
   'header.searchPlaceholder': { ar: 'ابحث عن منتجات...', en: 'Search products...' },
   'header.search': { ar: 'بحث', en: 'Search' },
   'header.noResults': { ar: 'لا توجد نتائج', en: 'No results' },

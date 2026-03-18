@@ -145,6 +145,10 @@ export default function StoreHeader() {
               style={{ padding: '10px 16px', color: 'white', cursor: 'pointer', fontSize: '15px', fontWeight: 500, textDecoration: 'none', whiteSpace: 'nowrap' }}>
               {t('header.boxes')}
             </a>
+            <a onClick={() => navigate('/store/collection/chilled_water')}
+              style={{ padding: '10px 16px', color: 'white', cursor: 'pointer', fontSize: '15px', fontWeight: 500, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+              {t('header.water')}
+            </a>
           </nav>
 
           {/* Icons */}
@@ -259,8 +263,11 @@ export default function StoreHeader() {
           <a onClick={() => navigate('/store/collection/promotion')} style={{ flex: '0 0 auto', padding: '12px 16px', color: 'white', cursor: 'pointer', fontSize: '13px', fontWeight: 500, textDecoration: 'none', borderRight: '1px solid rgba(255,255,255,0.2)' }}>
             {t('header.offers')}
           </a>
-          <a onClick={() => navigate('/store/collection/boxes')} style={{ flex: '0 0 auto', padding: '12px 16px', color: 'white', cursor: 'pointer', fontSize: '13px', fontWeight: 500, textDecoration: 'none' }}>
+          <a onClick={() => navigate('/store/collection/boxes')} style={{ flex: '0 0 auto', padding: '12px 16px', color: 'white', cursor: 'pointer', fontSize: '13px', fontWeight: 500, textDecoration: 'none', borderRight: '1px solid rgba(255,255,255,0.2)' }}>
             {t('header.boxes')}
+          </a>
+          <a onClick={() => navigate('/store/collection/chilled_water')} style={{ flex: '0 0 auto', padding: '12px 16px', color: 'white', cursor: 'pointer', fontSize: '13px', fontWeight: 500, textDecoration: 'none' }}>
+            {t('header.water')}
           </a>
         </div>
       </div>
@@ -361,6 +368,9 @@ export default function StoreHeader() {
               </a>
               <a onClick={() => { navigate('/store/collection/boxes'); setMobileMenuOpen(false); }} style={{ display: 'block', padding: '14px 20px', fontSize: '15px', fontWeight: 700, color: '#222', cursor: 'pointer', textDecoration: 'none', borderBottom: '1px solid #f0f0f0' }}>
                 {t('header.boxes')}
+              </a>
+              <a onClick={() => { navigate('/store/collection/chilled_water'); setMobileMenuOpen(false); }} style={{ display: 'block', padding: '14px 20px', fontSize: '15px', fontWeight: 700, color: '#222', cursor: 'pointer', textDecoration: 'none', borderBottom: '1px solid #f0f0f0' }}>
+                {t('header.water')}
               </a>
             </div>
           </div>
