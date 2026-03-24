@@ -539,13 +539,25 @@
     // Play notification sound - tries Web Audio API first, then HTML Audio
     function playNotificationSound() {
       if (!audioUnlocked) return;
+      console.log('playNotificationSound called, audioCtx state:', audioCtx ? audioCtx.state : 'null', 'buffer:', !!audioBuffer);
 
-      var played = false;
+      // On iOS Safari, AudioContext may get re-suspended when not triggered by gesture
+      // We need to resume it first, then play after resume completes
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().then(function() {
+          _doPlaySound();
+        });
+      } else {
+        _doPlaySound();
+      }
+    }
 
-      // Try Web Audio API first
-      if (audioCtx && audioBuffer) {
+    function _doPlaySound() {
+      var webAudioPlayed = false;
+
+      // Try Web Audio API
+      if (audioCtx && audioBuffer && audioCtx.state === 'running') {
         try {
-          if (audioCtx.state === 'suspended') audioCtx.resume();
           var source = audioCtx.createBufferSource();
           source.buffer = audioBuffer;
           var gain = audioCtx.createGain();
@@ -553,19 +565,30 @@
           source.connect(gain);
           gain.connect(audioCtx.destination);
           source.start(0);
-          played = true;
+          webAudioPlayed = true;
+          console.log('Sound played via Web Audio API');
         } catch(e) { console.log('WebAudio play error:', e); }
       }
 
-      // Always also try HTML Audio as backup
-      if (!played) {
-        try {
-          htmlAudio.currentTime = 0;
-          htmlAudio.muted = false;
-          htmlAudio.volume = 0.7;
-          htmlAudio.play().catch(function(e) { console.log('HTML Audio error:', e); });
-        } catch(e) {}
-      }
+      // ALWAYS also try HTML Audio (on iOS this often works better for non-gesture calls)
+      try {
+        var audioClone = new Audio(FROG_AUDIO_URL);
+        audioClone.volume = 0.7;
+        audioClone.play().then(function() {
+          console.log('Sound played via HTML Audio clone');
+        }).catch(function(e) {
+          console.log('HTML Audio clone error:', e);
+          // Last resort: try the pre-loaded one
+          if (!webAudioPlayed) {
+            try {
+              htmlAudio.currentTime = 0;
+              htmlAudio.muted = false;
+              htmlAudio.volume = 0.7;
+              htmlAudio.play().catch(function(e2) { console.log('HTML Audio fallback error:', e2); });
+            } catch(e3) {}
+          }
+        });
+      } catch(e) {}
     }
 
     // Auto-unlock on first user interaction
