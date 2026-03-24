@@ -464,6 +464,28 @@
     const frogAudio = new Audio('/admin/frog.mp3');
     frogAudio.volume = 0.7;
 
+    // Mobile audio unlock: browsers require user gesture before playing audio
+    let audioUnlocked = false;
+    function unlockAudio() {
+      if (audioUnlocked) return;
+      // Play and immediately pause to unlock audio on mobile
+      frogAudio.play().then(() => {
+        frogAudio.pause();
+        frogAudio.currentTime = 0;
+        audioUnlocked = true;
+        console.log('Audio unlocked for mobile');
+      }).catch(() => {});
+      // Also try creating and resuming AudioContext
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        if (ctx.state === 'suspended') ctx.resume();
+      } catch(e) {}
+    }
+    // Listen for first user interaction to unlock audio
+    ['click', 'touchstart', 'touchend', 'keydown'].forEach(evt => {
+      document.addEventListener(evt, unlockAudio, { once: false, passive: true });
+    });
+
     // === Performance Optimizations ===
     // Debounce function to prevent excessive re-renders
     function debounce(fn, delay) {
