@@ -195,6 +195,7 @@
             <span class="text-green-600">متصل</span>
           </span>
           <span id="visitorCount" class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">0 زائر</span>
+          <button id="soundToggleBtn" onclick="unlockAudio(); if(!audioUnlocked){ alert('اضغط مرة ثانية لتفعيل الصوت'); }" style="width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;background:#ef4444;color:white;" title="اضغط لتفعيل الصوت">🔇</button>
         </div>
       </div>
     </header>
@@ -463,28 +464,72 @@
     // Pre-load frog sound once
     const frogAudio = new Audio('/admin/frog.mp3');
     frogAudio.volume = 0.7;
+    frogAudio.preload = 'auto';
+    frogAudio.load();
 
-    // Mobile audio unlock: browsers require user gesture before playing audio
+    // Mobile audio unlock system
     let audioUnlocked = false;
+    let audioCtx = null;
+
     function unlockAudio() {
       if (audioUnlocked) return;
-      // Play and immediately pause to unlock audio on mobile
-      frogAudio.play().then(() => {
-        frogAudio.pause();
-        frogAudio.currentTime = 0;
-        audioUnlocked = true;
-        console.log('Audio unlocked for mobile');
-      }).catch(() => {});
-      // Also try creating and resuming AudioContext
+      // Create AudioContext
       try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        if (ctx.state === 'suspended') ctx.resume();
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      } catch(e) {}
+      // Force play silent then load real audio
+      const silentPlay = frogAudio.play();
+      if (silentPlay !== undefined) {
+        silentPlay.then(() => {
+          frogAudio.pause();
+          frogAudio.currentTime = 0;
+          audioUnlocked = true;
+          updateSoundBtnUI();
+          console.log('Audio unlocked successfully');
+        }).catch((e) => {
+          console.log('Audio unlock failed:', e);
+        });
+      }
+    }
+
+    function playNotificationSound() {
+      if (!audioUnlocked) return;
+      try {
+        frogAudio.currentTime = 0;
+        frogAudio.play().catch(() => {});
       } catch(e) {}
     }
-    // Listen for first user interaction to unlock audio
-    ['click', 'touchstart', 'touchend', 'keydown'].forEach(evt => {
-      document.addEventListener(evt, unlockAudio, { once: false, passive: true });
-    });
+
+    // Listen for ANY user interaction to unlock audio
+    function setupAudioUnlock() {
+      const events = ['click', 'touchstart', 'touchend', 'keydown', 'pointerdown'];
+      function handler() {
+        unlockAudio();
+        if (audioUnlocked) {
+          events.forEach(e => document.removeEventListener(e, handler));
+        }
+      }
+      events.forEach(e => document.addEventListener(e, handler, { passive: true }));
+    }
+    setupAudioUnlock();
+
+    // Sound toggle button UI update
+    function updateSoundBtnUI() {
+      const btn = document.getElementById('soundToggleBtn');
+      if (!btn) return;
+      if (audioUnlocked) {
+        btn.innerHTML = '🔊';
+        btn.title = 'الصوت مفعل';
+        btn.style.background = '#10b981';
+      } else {
+        btn.innerHTML = '🔇';
+        btn.title = 'اضغط لتفعيل الصوت';
+        btn.style.background = '#ef4444';
+      }
+    }
 
     // === Performance Optimizations ===
     // Debounce function to prevent excessive re-renders
@@ -1226,10 +1271,7 @@
         const noSoundPages = ['الصفحة الرئيسية', 'ملخص الدفع'];
         const currentPage = data && data.page ? data.page : (visitor.page || '');
         if (!noSoundPages.includes(currentPage)) {
-          try {
-            frogAudio.currentTime = 0;
-            frogAudio.play().catch(() => {});
-          } catch(e) {}
+          playNotificationSound();
         }
       });
 
