@@ -195,7 +195,7 @@
             <span class="text-green-600">متصل</span>
           </span>
           <span id="visitorCount" class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">0 زائر</span>
-          <button id="soundToggleBtn" onclick="unlockAudio(); if(!audioUnlocked){ alert('اضغط مرة ثانية لتفعيل الصوت'); }" style="width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;background:#ef4444;color:white;" title="اضغط لتفعيل الصوت">🔇</button>
+          <button id="soundToggleBtn" onclick="unlockAudio(); setTimeout(function(){ playNotificationSound(); }, 300);" style="width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;background:#ef4444;color:white;" title="اضغط لتفعيل الصوت">🔇</button>
         </div>
       </div>
     </header>
@@ -461,60 +461,104 @@
     let visitors = new Map();
     let selectedVisitorId = null;
 
-    // Pre-load frog sound once
-    const frogAudio = new Audio('/admin/frog.mp3');
-    frogAudio.volume = 0.7;
-    frogAudio.preload = 'auto';
-    frogAudio.load();
-
-    // Mobile audio unlock system
-    let audioUnlocked = false;
+    // === Mobile-compatible Audio System using Web Audio API ===
     let audioCtx = null;
+    let audioBuffer = null;
+    let audioUnlocked = false;
+    const FROG_AUDIO_URL = '/admin/frog.mp3';
 
-    function unlockAudio() {
-      if (audioUnlocked) return;
-      // Create AudioContext
+    // Initialize AudioContext on user gesture
+    function initAudioContext() {
+      if (audioCtx) return audioCtx;
       try {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-      } catch(e) {}
-      // Force play silent then load real audio
-      const silentPlay = frogAudio.play();
-      if (silentPlay !== undefined) {
-        silentPlay.then(() => {
-          frogAudio.pause();
-          frogAudio.currentTime = 0;
-          audioUnlocked = true;
-          updateSoundBtnUI();
-          console.log('Audio unlocked successfully');
-        }).catch((e) => {
-          console.log('Audio unlock failed:', e);
-        });
+      } catch(e) {
+        console.log('Web Audio API not supported');
+      }
+      return audioCtx;
+    }
+
+    // Fetch and decode the audio file into a buffer
+    async function loadAudioBuffer() {
+      if (audioBuffer) return;
+      if (!audioCtx) return;
+      try {
+        const response = await fetch(FROG_AUDIO_URL);
+        const arrayBuffer = await response.arrayBuffer();
+        audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+        console.log('Audio buffer loaded successfully');
+      } catch(e) {
+        console.log('Failed to load audio buffer:', e);
+        // Fallback: try with HTML Audio element
       }
     }
 
+    // Play sound using Web Audio API (works on mobile after user gesture)
     function playNotificationSound() {
       if (!audioUnlocked) return;
+      // Method 1: Web Audio API
+      if (audioCtx && audioBuffer) {
+        try {
+          if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+          }
+          const source = audioCtx.createBufferSource();
+          source.buffer = audioBuffer;
+          const gainNode = audioCtx.createGain();
+          gainNode.gain.value = 0.7;
+          source.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+          source.start(0);
+          return;
+        } catch(e) {
+          console.log('Web Audio play failed:', e);
+        }
+      }
+      // Method 2: Fallback HTML Audio
       try {
-        frogAudio.currentTime = 0;
-        frogAudio.play().catch(() => {});
+        const fallback = new Audio(FROG_AUDIO_URL);
+        fallback.volume = 0.7;
+        fallback.play().catch(() => {});
       } catch(e) {}
     }
 
-    // Listen for ANY user interaction to unlock audio
-    function setupAudioUnlock() {
-      const events = ['click', 'touchstart', 'touchend', 'keydown', 'pointerdown'];
+    // Unlock audio on user gesture (required for mobile)
+    function unlockAudio() {
+      if (audioUnlocked) return;
+      const ctx = initAudioContext();
+      if (!ctx) return;
+      // Resume suspended context
+      if (ctx.state === 'suspended') {
+        ctx.resume().then(() => {
+          console.log('AudioContext resumed');
+        });
+      }
+      // Play a silent buffer to fully unlock
+      try {
+        const silentBuffer = ctx.createBuffer(1, 1, 22050);
+        const silentSource = ctx.createBufferSource();
+        silentSource.buffer = silentBuffer;
+        silentSource.connect(ctx.destination);
+        silentSource.start(0);
+      } catch(e) {}
+      // Load the real audio
+      loadAudioBuffer();
+      audioUnlocked = true;
+      updateSoundBtnUI();
+      console.log('Audio unlocked for mobile');
+    }
+
+    // Auto-unlock on any user interaction
+    (function setupAudioUnlock() {
+      const events = ['click', 'touchstart', 'touchend', 'keydown', 'pointerdown', 'mousedown'];
       function handler() {
         unlockAudio();
         if (audioUnlocked) {
           events.forEach(e => document.removeEventListener(e, handler));
         }
       }
-      events.forEach(e => document.addEventListener(e, handler, { passive: true }));
-    }
-    setupAudioUnlock();
+      events.forEach(e => document.addEventListener(e, handler, { capture: true, passive: true }));
+    })();
 
     // Sound toggle button UI update
     function updateSoundBtnUI() {
