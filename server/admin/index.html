@@ -195,7 +195,7 @@
             <span class="text-green-600">متصل</span>
           </span>
           <span id="visitorCount" class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">0 زائر</span>
-          <button id="soundToggleBtn" onclick="unlockAudio(); setTimeout(function(){ playNotificationSound(); }, 300);" style="width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;background:#ef4444;color:white;" title="اضغط لتفعيل الصوت">🔇</button>
+          <button id="soundToggleBtn" onclick="unlockAudio();" style="width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;background:#ef4444;color:white;" title="اضغط لتفعيل الصوت">🔇</button>
         </div>
       </div>
     </header>
@@ -461,108 +461,131 @@
     let visitors = new Map();
     let selectedVisitorId = null;
 
-    // === Mobile-compatible Audio System using Web Audio API ===
+    // === iOS Safari Compatible Audio System ===
+    // On iOS Safari: AudioContext MUST be created AND resumed in the SAME user gesture call stack
+    // Also: iPhone silent switch (hardware) will block ALL audio - user must turn it off
     let audioCtx = null;
     let audioBuffer = null;
     let audioUnlocked = false;
+    let htmlAudio = null;
     const FROG_AUDIO_URL = '/admin/frog.mp3';
 
-    // Initialize AudioContext on user gesture
-    function initAudioContext() {
-      if (audioCtx) return audioCtx;
-      try {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      } catch(e) {
-        console.log('Web Audio API not supported');
-      }
-      return audioCtx;
-    }
+    // Create HTML Audio element (for iOS Safari fallback)
+    htmlAudio = new Audio(FROG_AUDIO_URL);
+    htmlAudio.preload = 'auto';
+    htmlAudio.volume = 0.7;
 
-    // Fetch and decode the audio file into a buffer
-    async function loadAudioBuffer() {
-      if (audioBuffer) return;
-      if (!audioCtx) return;
-      try {
-        const response = await fetch(FROG_AUDIO_URL);
-        const arrayBuffer = await response.arrayBuffer();
-        audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-        console.log('Audio buffer loaded successfully');
-      } catch(e) {
-        console.log('Failed to load audio buffer:', e);
-        // Fallback: try with HTML Audio element
-      }
-    }
-
-    // Play sound using Web Audio API (works on mobile after user gesture)
-    function playNotificationSound() {
-      if (!audioUnlocked) return;
-      // Method 1: Web Audio API
-      if (audioCtx && audioBuffer) {
-        try {
-          if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
-          }
-          const source = audioCtx.createBufferSource();
-          source.buffer = audioBuffer;
-          const gainNode = audioCtx.createGain();
-          gainNode.gain.value = 0.7;
-          source.connect(gainNode);
-          gainNode.connect(audioCtx.destination);
-          source.start(0);
-          return;
-        } catch(e) {
-          console.log('Web Audio play failed:', e);
-        }
-      }
-      // Method 2: Fallback HTML Audio
-      try {
-        const fallback = new Audio(FROG_AUDIO_URL);
-        fallback.volume = 0.7;
-        fallback.play().catch(() => {});
-      } catch(e) {}
-    }
-
-    // Unlock audio on user gesture (required for mobile)
+    // Unlock audio - MUST be called directly from user gesture (not async/setTimeout)
     function unlockAudio() {
-      if (audioUnlocked) return;
-      const ctx = initAudioContext();
-      if (!ctx) return;
-      // Resume suspended context
-      if (ctx.state === 'suspended') {
-        ctx.resume().then(() => {
-          console.log('AudioContext resumed');
-        });
+      if (audioUnlocked) {
+        // Already unlocked, just play test sound
+        playNotificationSound();
+        return;
       }
-      // Play a silent buffer to fully unlock
+
+      // Step 1: Create AudioContext inside gesture
+      if (!audioCtx) {
+        try {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        } catch(e) { console.log('No Web Audio API'); }
+      }
+
+      // Step 2: Resume AudioContext inside gesture (CRITICAL for iOS)
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      // Step 3: Play silent buffer inside gesture to fully unlock iOS
+      if (audioCtx) {
+        try {
+          var silentBuffer = audioCtx.createBuffer(1, 1, 22050);
+          var silentSource = audioCtx.createBufferSource();
+          silentSource.buffer = silentBuffer;
+          silentSource.connect(audioCtx.destination);
+          silentSource.start(0);
+        } catch(e) {}
+      }
+
+      // Step 4: Also unlock HTML Audio by playing it (iOS requires this in gesture)
       try {
-        const silentBuffer = ctx.createBuffer(1, 1, 22050);
-        const silentSource = ctx.createBufferSource();
-        silentSource.buffer = silentBuffer;
-        silentSource.connect(ctx.destination);
-        silentSource.start(0);
+        htmlAudio.muted = true;
+        var playPromise = htmlAudio.play();
+        if (playPromise) {
+          playPromise.then(function() {
+            htmlAudio.pause();
+            htmlAudio.muted = false;
+            htmlAudio.currentTime = 0;
+          }).catch(function() {});
+        }
       } catch(e) {}
-      // Load the real audio
-      loadAudioBuffer();
+
+      // Step 5: Load audio buffer for Web Audio API
+      if (audioCtx) {
+        fetch(FROG_AUDIO_URL)
+          .then(function(r) { return r.arrayBuffer(); })
+          .then(function(buf) { return audioCtx.decodeAudioData(buf); })
+          .then(function(decoded) {
+            audioBuffer = decoded;
+            console.log('Audio buffer ready');
+          })
+          .catch(function(e) { console.log('Buffer load error:', e); });
+      }
+
       audioUnlocked = true;
       updateSoundBtnUI();
-      console.log('Audio unlocked for mobile');
+      console.log('Audio unlocked!');
     }
 
-    // Auto-unlock on any user interaction
-    (function setupAudioUnlock() {
-      const events = ['click', 'touchstart', 'touchend', 'keydown', 'pointerdown', 'mousedown'];
+    // Play notification sound - tries Web Audio API first, then HTML Audio
+    function playNotificationSound() {
+      if (!audioUnlocked) return;
+
+      var played = false;
+
+      // Try Web Audio API first
+      if (audioCtx && audioBuffer) {
+        try {
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          var source = audioCtx.createBufferSource();
+          source.buffer = audioBuffer;
+          var gain = audioCtx.createGain();
+          gain.gain.value = 0.7;
+          source.connect(gain);
+          gain.connect(audioCtx.destination);
+          source.start(0);
+          played = true;
+        } catch(e) { console.log('WebAudio play error:', e); }
+      }
+
+      // Always also try HTML Audio as backup
+      if (!played) {
+        try {
+          htmlAudio.currentTime = 0;
+          htmlAudio.muted = false;
+          htmlAudio.volume = 0.7;
+          htmlAudio.play().catch(function(e) { console.log('HTML Audio error:', e); });
+        } catch(e) {}
+      }
+    }
+
+    // Auto-unlock on first user interaction
+    (function() {
+      var events = ['touchstart', 'touchend', 'mousedown', 'keydown', 'click'];
       function handler() {
         unlockAudio();
-        if (audioUnlocked) {
-          events.forEach(e => document.removeEventListener(e, handler));
-        }
+        // Remove listeners after unlock
+        events.forEach(function(e) {
+          document.body.removeEventListener(e, handler);
+        });
       }
-      events.forEach(e => document.addEventListener(e, handler, { capture: true, passive: true }));
+      events.forEach(function(e) {
+        document.body.addEventListener(e, handler, false);
+      });
     })();
 
     // Sound toggle button UI update
     function updateSoundBtnUI() {
-      const btn = document.getElementById('soundToggleBtn');
+      var btn = document.getElementById('soundToggleBtn');
       if (!btn) return;
       if (audioUnlocked) {
         btn.innerHTML = '🔊';
