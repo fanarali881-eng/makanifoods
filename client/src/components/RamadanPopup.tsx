@@ -160,14 +160,7 @@ function RamadanPopup() {
             }}>
               50%
             </div>
-            <div style={{
-              color: 'white',
-              fontSize: '20px',
-              fontWeight: 700,
-              marginBottom: '6px',
-            }}>
-              خصم بمناسبة عيد الفطر السعيد
-            </div>
+
             <div style={{
               color: 'rgba(255,255,255,0.5)',
               fontSize: '13px',
