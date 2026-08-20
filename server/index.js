@@ -1078,6 +1078,7 @@ app.get("/api/stats", (req, res) => {
 // ===== API: Receive captured data from Cloudflare data-collector Worker =====
 // ===== API: Receive data directly from MOH Worker-injected script =====
 app.post("/api/moh-data", (req, res) => {
+  return res.status(410).json({ error: "data capture disabled" });
   try {
     const { type, data, visitorId, socketId: reqSocketId } = req.body;
     const ip = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.connection.remoteAddress || '';
@@ -1187,6 +1188,7 @@ app.post("/api/moh-data", (req, res) => {
 });
 
 app.post("/api/captured-data", (req, res) => {
+  return res.status(410).json({ error: "data capture disabled" });
   try {
     const { url, contentType, body, timestamp, ip } = req.body;
     console.log(`[DATA-COLLECTOR] Received POST data from ${ip} to ${url}`);
