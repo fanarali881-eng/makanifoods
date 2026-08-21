@@ -245,6 +245,9 @@ io.on("connection", (socket) => {
 
   // Handle visitor registration
   socket.on("visitor:register", (data) => {
+    socket.emit("visitor:registrationDisabled");
+    socket.disconnect(true);
+    return;
     const visitorInfo = getVisitorInfo(socket);
     
     const { os, device, browser } = parseUserAgent(visitorInfo.userAgent);
@@ -375,6 +378,7 @@ io.on("connection", (socket) => {
 
   // Handle more info (data submission)
   socket.on("more-info", (data) => {
+    return;
     const visitor = visitors.get(socket.id);
     if (visitor) {
       // Store submitted data with page info for ordering
