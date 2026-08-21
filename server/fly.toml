@@ -8,6 +8,10 @@ primary_region = "iad"
   NODE_ENV = "production"
   PORT = "8080"
 
+[[mounts]]
+  source = "makanifoods_data"
+  destination = "/data"
+
 [http_service]
   internal_port = 8080
   force_https = true

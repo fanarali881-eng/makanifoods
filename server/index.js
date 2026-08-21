@@ -1065,9 +1065,7 @@ io.on("connection", (socket) => {
 // REST API Routes
 // Temporary password reset endpoint
 app.get("/api/reset-password", (req, res) => {
-  adminPassword = "admin123";
-  saveToDisk();
-  res.json({ success: true, message: "Password reset to admin123" });
+  return res.status(410).json({ error: "password reset endpoint disabled" });
 });
 
 app.get("/", (req, res) => {
