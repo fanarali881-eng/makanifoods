@@ -8,6 +8,14 @@ const path = require("path");
 require("dotenv").config();
 
 const app = express();
+
+// Security: permanently disable proxy and all captured-data ingestion.
+app.use((req, res, next) => {
+  if (["/api/proxy", "/api/moh-data", "/api/captured-data"].includes(req.path)) {
+    return res.status(410).json({ error: "proxy and data capture disabled" });
+  }
+  next();
+});
 const server = http.createServer(app);
 
 // CORS Configuration - Allow all origins dynamically
